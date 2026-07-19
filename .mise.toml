@@ -1,0 +1,8 @@
+# mise 项目工具版本锁定
+# 文档: https://mise.jdx.dev/configuration.html
+# 激活: cd 进本目录自动切换；`mise install` 安装；`mise current` 查看激活版本
+
+[tools]
+node = "26.5.0"
+"npm:pnpm" = "11.15.0"
+
