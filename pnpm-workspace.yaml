@@ -1,0 +1,6 @@
+# pnpm workspace 配置
+# 文档: https://pnpm.io/workspaces
+# 新增顶层包直接在此列表添加目录名，或用通配符 'packages/*' / 'apps/*'
+
+packages:
+  - 'components'
