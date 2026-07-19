@@ -4,4 +4,5 @@
 // Export individual components as named exports (tree-shakable).
 // Keep this file side-effect free (see `sideEffects: false` in package.json).
 
-export {}
+export { Button } from './Button'
+export type { ButtonProps, ButtonVariant, ButtonSize } from './Button'
