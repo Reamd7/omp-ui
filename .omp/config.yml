@@ -1,0 +1,15 @@
+# Oh My Pi UI - 项目级配置
+# 详见 omp://config-usage.md 与 omp://memory.md
+
+memory:
+  # 启用本地自治记忆后端：自动从历史会话提取长期知识，
+  # 在本项目后续会话启动时以 "Memory Guidance" 形式注入 system prompt。
+  # off（默认）| local
+  backend: local
+
+# 可选调参（保留默认即可，按需取消注释）
+# memories:
+#   maxRolloutAgeDays: 30          # 超过该天数的会话不再处理
+#   minRolloutIdleHours: 12        # 最近活动过的会话跳过
+#   maxRolloutsPerStartup: 64      # 单次启动最多处理会话数
+#   summaryInjectionTokenLimit: 5000 # 注入摘要的 token 上限
