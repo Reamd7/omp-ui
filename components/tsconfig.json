@@ -15,6 +15,10 @@
     "allowImportingTsExtensions": false,
     "noEmit": true,
     "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "types": ["react", "react-dom"]
   },
   "include": ["src", ".storybook"]

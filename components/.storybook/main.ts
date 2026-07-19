@@ -9,7 +9,11 @@ const config: StorybookConfig = {
   stories: ['../src/**/*.@(stories|mdx).@(ts|tsx|js|jsx|mjs|mjx)'],
   rsbuildFinal: (config) =>
     mergeRsbuildConfig(config, {
-      // 在这里追加自定义 Rsbuild 配置（alias / define / plugin ...）
+      source: {
+        alias: {
+          '@': new URL('./../src', import.meta.url).pathname,
+        },
+      },
     }),
 }
 
