@@ -40,6 +40,22 @@
     --chart-3: oklch(0.65 0.2 55);                 /* Orange */
     --chart-4: oklch(0.55 0.18 30);                /* Rose */
     --chart-5: oklch(0.6 0.16 85);                 /* Golden sand */
+
+    /* —— openchamber-compat 扩展令牌（迁移自 openchamber/ui 的组件依赖）—— */
+    --primary-base: var(--primary);                /* 主色"基底"（用于 color-mix 着色） */
+    --status-error: var(--destructive);            /* 错误状态色（destructive 别名） */
+    --status-success: oklch(0.62 0.16 145);        /* 成功状态色 */
+    --status-warning: oklch(0.72 0.16 70);         /* 警告状态色 */
+    --status-info: oklch(0.62 0.14 240);           /* 信息状态色 */
+    --surface-elevated: var(--card);               /* 凸起表面（卡片/输入框背景） */
+    --surface-subtle: var(--muted);                /* 微弱表面（hover 背景） */
+    --interactive-hover: color-mix(in srgb, var(--primary) 8%, transparent);
+    --interactive-active: color-mix(in srgb, var(--primary) 14%, transparent);
+    --interactive-selection: var(--primary);
+    --interactive-selection-foreground: var(--primary-foreground);
+    --interactive-border-hover: var(--border);
+    --interactive-border-focus: var(--ring);
+    --interactive-focus-ring: var(--ring);
   }
 
   .dark {
@@ -64,13 +80,23 @@
     --destructive-foreground: oklch(0.9 0.02 80);
     --border: oklch(0.31 0.01 35);
     --input: oklch(0.33 0.01 40);
-    --ring: oklch(0.77 0.17 85);
-
-    --chart-1: oklch(0.68 0.12 230);
-    --chart-2: oklch(0.68 0.12 145);
-    --chart-3: oklch(0.7 0.13 95);
-    --chart-4: oklch(0.65 0.14 45);
     --chart-5: oklch(0.68 0.12 55);
+
+    /* —— openchamber-compat 扩展令牌（dark）—— */
+    --primary-base: var(--primary);
+    --status-error: var(--destructive);
+    --status-success: oklch(0.68 0.16 145);
+    --status-warning: oklch(0.78 0.16 70);
+    --status-info: oklch(0.68 0.14 240);
+    --surface-elevated: var(--card);
+    --surface-subtle: var(--muted);
+    --interactive-hover: color-mix(in srgb, var(--primary) 14%, transparent);
+    --interactive-active: color-mix(in srgb, var(--primary) 22%, transparent);
+    --interactive-selection: var(--primary);
+    --interactive-selection-foreground: var(--primary-foreground);
+    --interactive-border-hover: var(--border);
+    --interactive-border-focus: var(--ring);
+    --interactive-focus-ring: var(--ring);
   }
 }
 
@@ -113,4 +139,20 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
+  /* —— openchamber-compat 扩展颜色映射 —— */
+  --color-primary-base: var(--primary-base);
+  --color-status-error: var(--status-error);
+  --color-status-success: var(--status-success);
+  --color-status-warning: var(--status-warning);
+  --color-status-info: var(--status-info);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-interactive-hover: var(--interactive-hover);
+  --color-interactive-active: var(--interactive-active);
+  --color-interactive-selection: var(--interactive-selection);
+  --color-interactive-selection-foreground: var(--interactive-selection-foreground);
+  --color-interactive-border-hover: var(--interactive-border-hover);
+  --color-interactive-border-focus: var(--interactive-border-focus);
+  --color-interactive-focus-ring: var(--interactive-focus-ring);
 }

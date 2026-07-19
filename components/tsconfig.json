@@ -15,7 +15,6 @@
     "allowImportingTsExtensions": false,
     "noEmit": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
