@@ -31,10 +31,11 @@ pre-commit:
       glob: '{components,biz-components}/src/**/*.{ts,tsx,css}'
       run: pnpm check:no-typography
 
-    # 🥉 Top-3b: P9 + P10 —— 原子层 src/ui/ 禁止业务耦合（i18n / store / openchamber 内部模块）
-    # 只对 components 包（biz 包没有 src/ui/，只有 src/biz/）
+    # 🥉 Top-3b: P9 + P10 —— 业务无关层（src/ui/ + src/biz/）禁止业务耦合
+    # components/src/ui/ = shadcn 原子；biz-components/src/biz/ = 组合业务组件
+    # 都禁：i18n / store / sync / hooks / desktop / Icon / useUIStore 等
     ui-purity:
-      glob: 'components/src/ui/**/*.{ts,tsx}'
+      glob: '{components,biz-components}/src/{ui,biz}/**/*.{ts,tsx}'
       run: pnpm check:ui-purity
 
     # oxlint —— P4/P6/P9/P10 的代码侧反馈 + 通用代码质量

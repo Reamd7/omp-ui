@@ -46,7 +46,7 @@
           }
         ],
         "patterns": [
-          { "group": ["@/components/*"], "message": "P6: 项目 alias 是 '@/*' → 'src/*'（没有 components 段）。用 './X'、'../X' 或 '@/ui/X'。" },
+          { "group": ["@/components/**"], "message": "P6: 项目 alias 是 '@/*' → 'src/*'（没有 components 段）。用 './X'、'../X' 或 '@/ui/X'。" },
           { "group": ["@openchamber/*"], "message": "P9/P10: 不依赖 openchamber 业务模块。" },
           { "group": ["@opencode-ai/*"], "message": "P9/P10: 不依赖 opencode 业务 SDK。" },
           { "group": ["@/stores/*"], "message": "P10: app 层状态不进原子层 / 当前项目无此路径。" },
