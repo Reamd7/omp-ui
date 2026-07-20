@@ -5,3 +5,4 @@ export * from "./Placeholder";
 export * from "./icons";
 export * from "./chat";
 export * from "./settings";
+export * from "./_placeholders";

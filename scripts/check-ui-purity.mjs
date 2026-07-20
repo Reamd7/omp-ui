@@ -73,6 +73,9 @@ const EXTENSIONS = new Set(['.ts', '.tsx', '.jsx', '.js'])
 
 function* walk(dir) {
   for (const entry of readdirSync(dir)) {
+    // Skip underscore-prefixed dirs (e.g. _placeholders/, _wip/, _tests/).
+    // These hold scaffold / roadmap content, not real components.
+    if (entry.startsWith('_')) continue
     const full = join(dir, entry)
     const st = statSync(full)
     if (st.isDirectory()) yield* walk(full)
