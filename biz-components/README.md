@@ -79,9 +79,10 @@ biz-components/
 Inherited from [`@omp-web/components`](../components/README.md#conventions). Additionally:
 
 - **One `*.stories.tsx` per component**, colocated in `src/biz/`.
+- **Story boundary = component boundary.** A story shows the component under test plus the children it directly composes (e.g. `SettingsSidebarLayout` story shows `SettingsSidebarLayout` + the `SettingsSidebarItem`s rendered inside it). It does **not** bring in unrelated sibling components to make the screenshot look like a complete page. If a real openchamber page is composed of multiple independent biz components (e.g. `SettingsView` nav + `SettingsSidebarLayout` + detail panel), the full-page replica belongs in a separate `_demos/` directory (or `apps/<feature>/` at app layer) — not stuffed into a single component's story.
 - **Append-only barrel.** `src/biz/index.ts` is shared — append `export * from "./<Name>"`, don't rewrite.
 - **No store / sync / runtime coupling.** If a component needs app state, lift it to props and let `apps/<feature>/` wire it.
-- **`_`-prefixed subdirs** (e.g. `_placeholders/`) are skipped by `scripts/check-ui-purity.mjs` — these hold roadmap / scaffold content, not real components.
+- **`_`-prefixed subdirs** (e.g. `_placeholders/`, future `_demos/`) are skipped by `scripts/check-ui-purity.mjs` — these hold roadmap / scaffold / page-level demo content, not real components.
 
 ## Migration roadmap + status
 
