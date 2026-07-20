@@ -62,8 +62,16 @@ biz-components/
     │   └── utils.ts        # re-export cn from @omp-web/components (single source of truth)
     └── biz/                # business component layer
         ├── index.ts            # barrel
-        ├── Placeholder.tsx     # scaffolding placeholder — delete when real biz components arrive
-        └── Placeholder.stories.tsx
+        ├── Placeholder.tsx     # scaffolding placeholder (kept as API example)
+        ├── icons/              # Phase 1: 5 OpenChamber SVG icons (lucide supplements)
+        ├── chat/               # Phase 1: ChatErrorBoundary + ChatSurfaceContext + chat/components/
+        │   ├── message/        #   MessageHeader (Phase 2)
+        │   └── components/     #   ScrollToBottomButton / TurnItem / TurnAssistantBlock /
+        │                       #   TurnActivity / PromptNavigatorRail (707 LOC full migration)
+        ├── settings/           # Phase 1: sections/shared full set (7 files)
+        ├── layout/             # Phase 2: ResizableSidebar (merges Sidebar + RightSidebar)
+        ├── session/            # Phase 2: ThinkingPill + ArchiveAllDropdown
+        └── _placeholders/      # Phase 3/4: ComingSoon + 30+ placeholder stories
 ```
 
 ## Conventions
@@ -73,7 +81,32 @@ Inherited from [`@omp-web/components`](../components/README.md#conventions). Add
 - **One `*.stories.tsx` per component**, colocated in `src/biz/`.
 - **Append-only barrel.** `src/biz/index.ts` is shared — append `export * from "./<Name>"`, don't rewrite.
 - **No store / sync / runtime coupling.** If a component needs app state, lift it to props and let `apps/<feature>/` wire it.
+- **`_`-prefixed subdirs** (e.g. `_placeholders/`) are skipped by `scripts/check-ui-purity.mjs` — these hold roadmap / scaffold content, not real components.
 
-## Migration roadmap
+## Migration roadmap + status
 
-See [`docs/openchamber-business-components.md`](../docs/openchamber-business-components.md) for the full classification (🟢 pure / 🟡 light / 🔴 heavy) and phased migration plan from OpenChamber.
+Phased plan from [`docs/openchamber-business-components.md`](../docs/openchamber-business-components.md). Current status:
+
+| Phase                     | Status                            | Components                                                                                                                                                                                                                                                                                 |
+| ------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Phase 1** (pure)        | ✅ Done (commit `c812b26`)        | icons (5) + ChatErrorBoundary + ChatSurfaceContext + chat/components (5: ScrollToBottomButton / TurnItem / TurnAssistantBlock / TurnActivity / PromptNavigatorRail) + chat/types + sections/shared (7 files)                                                                               |
+| **Phase 2** (light)       | ✅ Partial (commit `343b66d`)     | ResizableSidebar + MessageHeader + ThinkingPill + ArchiveAllDropdown                                                                                                                                                                                                                       |
+| **Phase 2 reclassified**  | ⏭ Deferred to Phase 3 placeholder | PermissionCard (461 LOC, 5 sync deps) / QuestionCard (570 LOC, 6 sync deps) / ToolOutputDialog / ReviewFlowDialog / SessionSwitcherDropdown / GitHubIntegrationDialog / SessionDialogs / comments/ / onboarding/ / code/WorkerHighlightedCode. Doc misjudged coupling — all turn out heavy |
+| **Phase 3** (heavy)       | ⏭ Placeholders only               | chat/{ChatContainer,ChatInput,ChatMessage,MessageList,...} + session/{SessionSidebar,...} + layout/{MainLayout,Header,...} + views/ (8) + multirun/ + sections/*Page (80)                                                                                                                  |
+| **Phase 4** (on-demand)   | ⏭ Placeholders only               | terminal / auth / update / desktop / model-picker / mini-chat / mcp / dictation                                                                                                                                                                                                            |
+| **Deferred from Phase 1** | ⏭ Placeholder                     | MarkdownRenderer (1245 LOC + marked + Shiki worker + KaTeX + DOMPurify)                                                                                                                                                                                                                    |
+
+Each Phase 3/4 component has its own Storybook story under `Biz/_placeholders/` showing name / source path / reason / coupling / LOC / strategy (migrate / rewrite / skip).
+
+**ComingSoon component** is the visual placeholder — pass `name`, `phase`, `reason`, `when`, `coupling`, `linesOfCode`, `strategy` props.
+
+## Decoupling patterns (consistent across all migrated components)
+
+- **i18n hook** → hardcoded English defaults + optional `labels` / `texts` / `*Label` prop for app-layer i18n override
+- **`<Icon name="X" />`** → individual `lucide-react` imports (e.g. `<User />`, `<Bot />`, `<Sparkles />`, `<ChevronDown />`)
+- **openchamber typography classes** (typography.meta / typography.ui-label / typography.settings-*) → standard Tailwind utilities (text-xs / text-sm / font-medium / etc.)
+- **store deps** (UI store / projects store / session-UI store) → controlled props
+- **`@/lib/desktop` `isVSCodeRuntime`** → removed (assume desktop runtime)
+- **`@opencode-ai/sdk` `Part[]`** → caller pre-renders to `string` / `Map<string, string>`
+- **`var(--surface-X)` tokens** → standard tokens (`--background` / `--muted` / `--foreground` / `--card`)
+- **`X != null`** → explicit `X !== null && X !== undefined` (oxlint eqeqeq enforcement)
