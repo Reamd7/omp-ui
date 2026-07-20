@@ -1,7 +1,13 @@
 {
   "$schema": "https://unpkg.com/knip@latest/schema.json",
   "workspaces": {
-    "components": {}
+    "components": {},
+    "biz-components": {}
   },
-  "ignoreDependencies": ["@commitlint/cli"]
+  "ignoreDependencies": [
+    "@commitlint/cli",
+    "@omp-web/components",
+    "tailwindcss",
+    "tw-animate-css"
+  ]
 }

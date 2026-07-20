@@ -7,27 +7,32 @@
 #   2. 增量触发（glob）—— 只在相关文件被改动时才跑对应检查
 #   3. 治本不治标 —— 每条规则都对应一个历史踩坑（见 .omp/memory-lint-report.md）
 #   4. 分层 —— typecheck / oxlint / format 是 pre-commit；commitlint 是 commit-msg
+#   5. 跨 workspace —— biz-components 依赖 components，所以只要任一包 src 改了，
+#      typecheck/knip 都会全 workspace 跑（pnpm -r + knip workspace scan）
 
 pre-commit:
   parallel: true
   commands:
-    # 🥇 Top-1: tsc --noEmit —— 覆盖 P4（@storybook/react 路径）/ P5（tsconfig baseUrl）/ P6（@/components/ui/X 错 alias）
+    # 🥇 Top-1: tsc --noEmit（pnpm -r 跑所有 workspace 的 typecheck）
+    # 覆盖 P4（@storybook/react 路径）/ P5（tsconfig baseUrl）/ P6（@/components/ui/X 错 alias）
     typecheck:
-      glob: 'components/**/*.{ts,tsx}'
-      root: 'components/'
-      run: pnpm typecheck
+      glob: '{components,biz-components}/**/*.{ts,tsx}'
+      run: pnpm -r run typecheck
 
     # 🥈 Top-2: P1 invariant —— 专防 Storybook "React is not defined" 全员崩
+    # 脚本自动扫描所有 workspace 的 .storybook/main.ts
     storybook-runtime:
-      glob: 'components/.storybook/main.ts'
+      glob: '{components,biz-components}/.storybook/main.ts'
       run: pnpm check:storybook-runtime
 
     # 🥉 Top-3a: P7 —— 禁止 openchamber 自定义类 .typography-* 残留
+    # 脚本自动扫描所有 workspace 的 src/
     typography-leak:
-      glob: 'components/src/**/*.{ts,tsx,css}'
+      glob: '{components,biz-components}/src/**/*.{ts,tsx,css}'
       run: pnpm check:no-typography
 
     # 🥉 Top-3b: P9 + P10 —— 原子层 src/ui/ 禁止业务耦合（i18n / store / openchamber 内部模块）
+    # 只对 components 包（biz 包没有 src/ui/，只有 src/biz/）
     ui-purity:
       glob: 'components/src/ui/**/*.{ts,tsx}'
       run: pnpm check:ui-purity
@@ -35,18 +40,18 @@ pre-commit:
     # oxlint —— P4/P6/P9/P10 的代码侧反馈 + 通用代码质量
     # 比 tsc 快得多（Rust 实现，~1s），先跑 oxlint 立即反馈 import / 未用变量等问题
     oxlint:
-      glob: 'components/**/*.{ts,tsx}'
+      glob: '{components,biz-components}/**/*.{ts,tsx}'
       run: pnpm exec oxlint {staged_files}
 
     # oxfmt —— 检查格式（不自动修复，pre-commit 只 fail；本地跑 `pnpm format` 修）
-    # 跑在 components/ 整个目录（oxfmt 对单文件 --check 不稳），~0.5s
+    # 跑在两个包的整个目录（oxfmt 对单文件 --check 不稳），~0.7s
     format:
-      glob: 'components/**/*.{ts,tsx,js,jsx,mjs,cjs,json,jsonc}'
+      glob: '{components,biz-components}/**/*.{ts,tsx,js,jsx,mjs,cjs,json,jsonc}'
       run: pnpm format:check
 
-    # knip —— 检测未使用的导出 / 文件 / 依赖。全项目扫描（~1.6s），只在 src 或 package.json 改动时触发
+    # knip —— 检测未使用的导出 / 文件 / 依赖。全项目扫描（~1.7s），只在 src 或 package.json 改动时触发
     knip:
-      glob: '{components/src/**,components/package.json,package.json,pnpm-workspace.yaml,knip.json}'
+      glob: '{components,biz-components}/{src/**,package.json},package.json,pnpm-workspace.yaml,knip.json'
       run: pnpm knip
 
 commit-msg:

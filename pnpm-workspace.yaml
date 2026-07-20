@@ -4,6 +4,7 @@
 
 packages:
   - 'components'
+  - 'biz-components'
 allowBuilds:
   '@evilmartians/lefthook': true
   esbuild: true

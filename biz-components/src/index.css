@@ -1,0 +1,18 @@
+/* ========================================================================
+ * @omp-web/biz-components — 本包样式入口
+ *
+ * 设计系统（语义令牌 + @theme inline 桥接 + base 层）由 @omp-web/components 提供，
+ * 通过 workspace 协议在 .storybook/preview.tsx 里 import "@omp-web/components/styles.css"。
+ *
+ * 本文件只声明本包特有的内容：
+ *   1. @source 让 Tailwind v4 扫描本包 + sibling components 包的源码，
+ *      提取用到的 utility class（包括 biz 内部用 @components/ui/* 时的类名）。
+ *
+ * 注意：扫描 sibling 包用相对路径穿透 pnpm workspace 符号链接。
+ * ======================================================================== */
+
+/* 扫描本包源码 */
+@source "./**/*.{ts,tsx}";
+
+/* 扫描 sibling components 包源码 —— biz 复用其原子原语，class 必须由本包 Tailwind 一起生成 */
+@source "../../components/src/**/*.{ts,tsx}";
