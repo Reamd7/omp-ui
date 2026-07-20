@@ -70,22 +70,24 @@ export const SETTINGS_OPTION_STACK_CLASS = "space-y-1.5";
  */
 /** L1 — page / detail-pane title (larger, quieter than section titles). */
 export const SETTINGS_PAGE_TITLE_CLASS =
-  "text-2xl font-semibold tracking-tight text-muted-foreground";
-/** L2 — section title inside a settings page. */
-export const SETTINGS_SECTION_TITLE_CLASS = "text-lg font-semibold text-foreground";
-/** L3 — control-group heading inside a section. */
+  "text-lg font-semibold leading-tight tracking-tight text-muted-foreground";
+/** L2 — section title inside a settings page. Matches openchamber typography.settings-section-title (15px / lh 1.2 / weight 600). */
+export const SETTINGS_SECTION_TITLE_CLASS =
+  "text-[0.9375rem] leading-[1.2] font-semibold text-foreground";
+/** L3 — control-group heading inside a section. Matches typography.settings-group-title (14px / lh 1.2 / weight 500). */
 export const SETTINGS_GROUP_TITLE_CLASS =
-  "text-sm font-semibold uppercase tracking-wide text-foreground";
-/** L4 — field / control labels. */
-export const SETTINGS_FIELD_LABEL_CLASS = "text-sm font-medium text-foreground";
-/** Supporting copy under page or section titles. */
-export const SETTINGS_DESCRIPTION_CLASS = "text-sm text-muted-foreground";
-/** Supporting copy under group titles and fields. */
-export const SETTINGS_HELPER_CLASS = "text-xs text-muted-foreground";
-/** Callout / alert headline inside a section (not a control-group title). */
-export const SETTINGS_CALLOUT_TITLE_CLASS = "text-xs font-medium text-foreground";
+  "text-sm leading-[1.2] font-medium uppercase tracking-wide text-foreground";
+/** L4 — field / control labels. Matches typography.settings-field-label (14px / lh 1.2 / weight 400). */
+export const SETTINGS_FIELD_LABEL_CLASS = "text-sm leading-[1.2] font-normal text-foreground";
+/** Supporting copy under page or section titles. Matches typography.settings-description (14px / lh 1.5). */
+export const SETTINGS_DESCRIPTION_CLASS = "text-sm leading-normal text-muted-foreground";
+/** Supporting copy under group titles and fields. Matches typography.meta (14px / lh 1.45). */
+export const SETTINGS_HELPER_CLASS = "text-sm leading-[1.45] text-muted-foreground";
+/** Callout / alert headline inside a section (not a control-group title). Maps to typography.meta (14px) + font-medium. */
+export const SETTINGS_CALLOUT_TITLE_CLASS = "text-sm leading-[1.45] font-medium text-foreground";
 /** Brand / product name under a logo — quieter than L1 page title. */
-export const SETTINGS_BRAND_TITLE_CLASS = "text-lg font-semibold text-foreground";
+export const SETTINGS_BRAND_TITLE_CLASS =
+  "text-[0.9375rem] leading-[1.2] font-semibold text-foreground";
 /** Split-pane sidebar panel title — same level as section titles. Use SETTINGS_SECTION_TITLE_CLASS directly. */
 interface SettingsSectionProps {
   /** Section title. Strings render as the shared h2 style. */

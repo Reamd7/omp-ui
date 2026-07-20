@@ -16,6 +16,7 @@ import {
   SettingsInset,
   SettingsTwoColumn,
   SettingsChipGroup,
+  SETTINGS_SECTION_TITLE_CLASS,
 } from "./SettingsSection";
 import { SettingsPageLayout } from "./SettingsPageLayout";
 import { SettingsSidebarLayout } from "./SettingsSidebarLayout";
@@ -187,10 +188,12 @@ export const SidebarLayout: Story = {
               header={
                 <div className="border-b border-border/60 px-3 pb-3 pt-4">
                   <div className="mb-3 flex items-center justify-between gap-3">
-                    <h2 className="text-lg font-semibold text-foreground">Plugins</h2>
+                    <h2 className={SETTINGS_SECTION_TITLE_CLASS}>Plugins</h2>
                   </div>
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs text-muted-foreground">Total {total}</span>
+                    <span className="text-sm leading-[1.45] text-muted-foreground">
+                      Total {total}
+                    </span>
                     <div className="flex items-center gap-1">
                       <Button
                         type="button"
