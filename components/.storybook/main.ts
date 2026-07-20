@@ -14,6 +14,19 @@ const config: StorybookConfig = {
           '@': new URL('./../src', import.meta.url).pathname,
         },
       },
+      tools: {
+        swc: {
+          jsc: {
+            transform: {
+              react: {
+                // 强制 React 17+ automatic JSX runtime：避免 classic runtime
+                // 下漏写 `import React` 就崩 "React is not defined"
+                runtime: 'automatic',
+              },
+            },
+          },
+        },
+      },
     }),
 }
 

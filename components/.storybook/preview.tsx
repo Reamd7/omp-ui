@@ -1,3 +1,4 @@
+import * as React from 'react'
 import type { Preview } from '@storybook/react'
 // 全局样式：Tailwind v4 + 设计系统（语义令牌）+ base 层
 import '../src/index.css'
