@@ -39,4 +39,8 @@ coverage/
 .turbo/
 .eslintcache
 
-.omp/
+# omp: keep project-shared config (agents / skills), ignore scratch / reports
+.omp/*
+!.omp/agents/
+!.omp/skills/
+!.omp/config.yml
