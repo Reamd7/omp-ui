@@ -31,6 +31,7 @@
     "@omp-web/components": "workspace:*",
     "@rsbuild/core": "^2.1.6",
     "@storybook/react": "^10.5.2",
+    "@tailwindcss/postcss": "^4.3.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "class-variance-authority": "^0.7.1",
