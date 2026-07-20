@@ -5,4 +5,5 @@
 packages:
   - 'components'
 allowBuilds:
-  esbuild: set this to true or false
+  '@evilmartians/lefthook': true
+  esbuild: true

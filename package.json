@@ -9,6 +9,16 @@
   },
   "scripts": {
     "install:all": "pnpm install --recursive",
-    "clean": "pnpm -r exec rimraf dist node_modules || true"
+    "clean": "pnpm -r exec rimraf dist node_modules || true",
+    "prepare": "lefthook install",
+    "typecheck": "pnpm -r run typecheck",
+    "check:storybook-runtime": "node scripts/check-swc-runtime.mjs",
+    "check:no-typography": "node scripts/check-no-typography.mjs",
+    "check:ui-purity": "node scripts/check-ui-purity.mjs",
+    "lint": "pnpm run check:storybook-runtime && pnpm run check:no-typography && pnpm run check:ui-purity"
+  },
+
+  "devDependencies": {
+    "@evilmartians/lefthook": "^2.0.11"
   }
 }

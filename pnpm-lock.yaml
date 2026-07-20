@@ -6,7 +6,11 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      '@evilmartians/lefthook':
+        specifier: ^2.0.11
+        version: 2.0.11
 
   components:
     devDependencies:
@@ -351,6 +355,12 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@evilmartians/lefthook@2.0.11':
+    resolution: {integrity: sha512-87SEpwRdnoMy0kA8vaRIaHQnRK97/5MKZhg8U6CcB1PviI7/mFtTO3rVbaMfHzSQkHn+gJJahvMA+kRYnQAbAg==}
+    cpu: [x64, arm64, ia32]
+    os: [darwin, linux, win32]
+    hasBin: true
 
   '@floating-ui/core@1.8.0':
     resolution: {integrity: sha512-0CIZ5itps/8x7BG8dEIhs53BvCUH2PCoogtakwRTut+Arm58sJooJ0AuZhLw2HJYIR5cMLNPBSS728sPho2khQ==}
@@ -3002,6 +3012,8 @@ snapshots:
 
   '@esbuild/win32-x64@0.28.1':
     optional: true
+
+  '@evilmartians/lefthook@2.0.11': {}
 
   '@floating-ui/core@1.8.0':
     dependencies:

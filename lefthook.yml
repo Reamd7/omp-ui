@@ -1,0 +1,33 @@
+# Lefthook git hooks 配置
+# 文档: https://github.com/evilmartians/lefthook
+# 由根 package.json 的 "prepare": "lefthook install" 自动安装到 .git/hooks/
+#
+# 设计原则：
+#   1. 并行跑（parallel: true）—— 几个 invariant 互不依赖
+#   2. 增量触发（glob）—— 只在相关文件被改动时才跑对应检查
+#   3. 治本不治标 —— 每条规则都对应一个历史踩坑（见 .omp/memory-lint-report.md）
+
+pre-commit:
+  parallel: true
+  commands:
+    # 🥇 Top-1: tsc --noEmit —— 覆盖 P4（@storybook/react 路径）/ P5（tsconfig baseUrl）/ P6（@/components/ui/X 错 alias）
+    typecheck:
+      glob: 'components/**/*.{ts,tsx}'
+      root: 'components/'
+      # 注意：tsc 不能只跑变更文件，但只在 .ts/.tsx 改动时才触发，避免文档/样式 commit 被拖慢
+      run: pnpm typecheck
+
+    # 🥈 Top-2: P1 invariant —— 专防 Storybook "React is not defined" 全员崩
+    storybook-runtime:
+      glob: 'components/.storybook/main.ts'
+      run: pnpm check:storybook-runtime
+
+    # 🥉 Top-3a: P7 —— 禁止 openchamber 自定义类 .typography-* 残留
+    typography-leak:
+      glob: 'components/src/**/*.{ts,tsx,css}'
+      run: pnpm check:no-typography
+
+    # 🥉 Top-3b: P9 + P10 —— 原子层 src/ui/ 禁止业务耦合（i18n / store / openchamber 内部模块）
+    ui-purity:
+      glob: 'components/src/ui/**/*.{ts,tsx}'
+      run: pnpm check:ui-purity
