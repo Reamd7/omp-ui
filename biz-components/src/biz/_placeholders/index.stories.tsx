@@ -22,8 +22,8 @@ export const ChatContainer: Story = {
       reason="聚合 MessageList + ChatInput + StatusRow + Permission/Question Card + Timeline + NavigatorRail + ScrollButton，wires 8 sync 模块。"
       when="omp-web 主对话界面 + sync 层建好后"
       coupling={[
-        "useUIStore",
-        "useSessionUIStore",
+        "UI store hook",
+        "session-UI store hook",
         "useGlobalSyncStore",
         "useChatAutoFollow",
         "8 sync modules",
@@ -44,8 +44,8 @@ export const ChatInput: Story = {
       when="omp-web 输入框契约定型时"
       coupling={[
         "useInputStore",
-        "useConfigStore",
-        "useSessionUIStore",
+        "config store hook",
+        "session-UI store hook",
         "15 stores",
         "7 sync modules",
       ]}
@@ -62,9 +62,14 @@ export const ChatMessage: Story = {
       name="ChatMessage / MessageBody / parts/ToolPart"
       source="chat/ChatMessage.tsx + chat/message/MessageBody.tsx + chat/message/parts/ToolPart.tsx"
       phase="3"
-      reason="useConfigStore + useFeatureFlagsStore + useUIStore + useContextStore + useSessionUIStore + useSelectionStore + useDeviceInfo + useThemeSystem 全套 hook 接入。"
+      reason="config store hook + useFeatureFlagsStore + UI store hook + useContextStore + session-UI store hook + useSelectionStore + device-info hook + useThemeSystem 全套 hook 接入。"
       when="message 渲染契约定型后"
-      coupling={["useConfigStore", "useFeatureFlagsStore", "useContextStore", "useSelectionStore"]}
+      coupling={[
+        "config store hook",
+        "useFeatureFlagsStore",
+        "useContextStore",
+        "useSelectionStore",
+      ]}
       linesOfCode={1500}
     />
   ),
@@ -207,11 +212,11 @@ export const MainLayout: Story = {
       name="MainLayout"
       source="layout/MainLayout.tsx"
       phase="3"
-      reason="583 LOC 编排器；8 UIStore 字段 + useSessionUIStore + useDeviceInfo + DrawerProvider + DiffWorkerProvider + useUpdatePolling。"
+      reason="583 LOC 编排器；8 UIStore 字段 + session-UI store hook + device-info hook + DrawerProvider + DiffWorkerProvider + useUpdatePolling。"
       when="所有 view 都迁好后再编 main shell"
       coupling={[
-        "useUIStore (8 fields)",
-        "useSessionUIStore",
+        "UI store hook (8 fields)",
+        "session-UI store hook",
         "DrawerProvider",
         "DiffWorkerProvider",
       ]}
@@ -339,7 +344,7 @@ export const ChatView = viewStory(
   "ChatView",
   "聚合 ChatContainer + 多 store，依赖 chat 子系统全部迁完。",
   300,
-  ["ChatContainer", "useSessionUIStore"],
+  ["ChatContainer", "session-UI store hook"],
 );
 export const DiffView = viewStory(
   "DiffView",
@@ -492,7 +497,7 @@ export const McpDropdown = phase4Story(
 export const ComposerDictation = phase4Story(
   "ComposerDictation",
   "dictation/ComposerDictation.tsx",
-  "useDictation + useConfigStore + useUIStore + shortcuts + runtimeFetch —— 语音输入。",
+  "useDictation + config store hook + UI store hook + shortcuts + runtimeFetch —— 语音输入。",
   "语音输入功能时",
   ["useDictation", "shortcuts lib"],
   150,
@@ -507,4 +512,121 @@ export const MarkdownRenderer = phase4Story(
   "独立任务（安装 marked/shiki/katex/dompurify + 配 worker）",
   ["marked", "shiki worker", "katex", "dompurify", "morphdom", "mermaid"],
   1245,
+);
+
+// ─── Reclassified from Phase 2 to Phase 3 (turns out heavier than doc said) ──
+
+export const PermissionCard = phase4Story(
+  "PermissionCard",
+  "chat/PermissionCard.tsx",
+  "461 LOC + 5 sync deps (session-UI store hook / useSessions / sessionActions) + WorkerHighlightedCode + DiffPreview + WritePreview. Doc mischaracterized as 'light' but it's heavy.",
+  "omp-web 接入 opencode + diff preview 子系统后",
+  [
+    "session-UI store hook",
+    "useSessions",
+    "sessionActions",
+    "WorkerHighlightedCode",
+    "DiffPreview",
+    "WritePreview",
+  ],
+  461,
+);
+
+export const QuestionCard = phase4Story(
+  "QuestionCard",
+  "chat/QuestionCard.tsx",
+  "570 LOC + 6 sync deps + questionSerializers + questionTextareaSizing + copyTextToClipboard + isIMECompositionEvent. Doc mischaracterized as 'light'.",
+  "omp-web 接入 opencode + IME + clipboard 抽象后",
+  [
+    "session-UI store hook",
+    "useSessions",
+    "sessionActions",
+    "isIMECompositionEvent",
+    "questionSerializers",
+  ],
+  570,
+);
+
+export const ToolOutputDialog = phase4Story(
+  "ToolOutputDialog",
+  "chat/ToolOutputDialog.tsx (path unverified)",
+  "Doc listed as Phase 2; source path not at expected location — needs further investigation.",
+  "等 chat 子系统迁完",
+  ["chat-local types"],
+  200,
+);
+
+export const ReviewFlowDialog = phase4Story(
+  "ReviewFlowDialog",
+  "session/ReviewFlowDialog.tsx",
+  "225 LOC + AgentSelector + ModelSelector + ThinkingPill + mobileControlsUtils + config store hook + useAgentsStore. Coupled to model/agent picker subsystem.",
+  "等 model-picker / agent-picker 子系统迁完",
+  ["config store hook", "useAgentsStore", "AgentSelector", "ModelSelector", "mobileControlsUtils"],
+  225,
+);
+
+export const SessionSwitcherDropdown = phase4Story(
+  "SessionSwitcherDropdown",
+  "session/SessionSwitcherDropdown.tsx",
+  "312 LOC + session-UI store hook + useGlobalSessionStatus + useSessionUnseenCount + useSwitcherItems + UI store hook + useGlobalSessionsStore + @opencode-ai/sdk Session type + sidebar/utils + sidebar/types.",
+  "等 session 子系统 + SDK 接入后",
+  [
+    "session-UI store hook",
+    "useGlobalSessionStatus",
+    "useSwitcherItems",
+    "@opencode-ai/sdk",
+    "sidebar subsystem",
+  ],
+  312,
+);
+
+export const GitHubIntegrationDialog = phase4Story(
+  "GitHubIntegrationDialog",
+  "session/GitHubIntegrationDialog.tsx",
+  "677 LOC + runtimeAPIs + useProjectsStore + UI store hook + useGitHubAuthStore + worktreeManager + SortableTabsStrip + MobileOverlayPanel + GitHub issue/PR types. Heaviest session dialog.",
+  "等 GitHub auth + worktree 子系统",
+  [
+    "runtimeAPIs",
+    "useGitHubAuthStore",
+    "worktreeManager",
+    "SortableTabsStrip",
+    "MobileOverlayPanel",
+  ],
+  677,
+);
+
+export const SessionDialogs = phase4Story(
+  "SessionDialogs",
+  "session/SessionDialogs.tsx",
+  "聚合多个 session 子 dialog（Review/Fork/GitHub/...），依赖全套 session 子系统。",
+  "等所有子 dialog 都迁完后编 aggregator",
+  ["aggregator of session dialogs"],
+  150,
+);
+
+export const CommentsGroup = phase4Story(
+  "comments/ (7 文件)",
+  "comments/*",
+  "Button + Tooltip + Dialog + useInlineCommentDraftStore + session-UI store hook. 7 文件整组。",
+  "等 inline comment draft store 设计",
+  ["useInlineCommentDraftStore", "session-UI store hook"],
+  600,
+);
+
+export const OnboardingGroup = phase4Story(
+  "onboarding/ (10 文件)",
+  "onboarding/*",
+  "Dialog + Button + Input + lib/desktop + lib/desktopHosts. 需要把 desktop lib 抽象为接口注入。",
+  "等 desktop runtime interface 抽象",
+  ["lib/desktop", "lib/desktopHosts"],
+  800,
+);
+
+export const WorkerHighlightedCode = phase4Story(
+  "WorkerHighlightedCode",
+  "code/WorkerHighlightedCode.tsx",
+  "依赖 chat/markdown/markdown-worker (Shiki)。MarkdownRenderer 没迁完前不可独立使用。",
+  "等 MarkdownRenderer 迁完后（Phase 4 deferred）",
+  ["chat/markdown/markdown-worker", "shiki"],
+  100,
 );

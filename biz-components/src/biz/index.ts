@@ -5,4 +5,6 @@ export * from "./Placeholder";
 export * from "./icons";
 export * from "./chat";
 export * from "./settings";
+export * from "./layout";
+export * from "./session";
 export * from "./_placeholders";
