@@ -2,7 +2,9 @@
   "$schema": "https://unpkg.com/knip@latest/schema.json",
   "workspaces": {
     "components": {},
-    "biz-components": {}
+    "biz-components": {
+      "entry": ["postcss.config.mjs"]
+    },
   },
   "ignoreDependencies": [
     "@commitlint/cli",

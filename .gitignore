@@ -38,3 +38,5 @@ coverage/
 .cache/
 .turbo/
 .eslintcache
+
+.omp/

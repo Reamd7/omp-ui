@@ -1,4 +1,7 @@
 // biz 层 barrel — 业务组件统一出口
-// 每新增一个业务组件，append `export * from "./<Name>"` 即可。
+// 每新增一个业务组件目录，append `export * from "./<dir>"` 即可。
 
 export * from "./Placeholder";
+export * from "./icons";
+export * from "./chat";
+export * from "./settings";
