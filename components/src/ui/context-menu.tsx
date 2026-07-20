@@ -22,7 +22,13 @@ type ContentProps = {
   children?: React.ReactNode;
 } & React.ComponentProps<typeof BaseContextMenu.Popup>;
 
-function ContextMenuContent({ className, positionerClassName, children, style, ...props }: ContentProps) {
+function ContextMenuContent({
+  className,
+  positionerClassName,
+  children,
+  style,
+  ...props
+}: ContentProps) {
   return (
     <BaseContextMenu.Portal>
       <BaseContextMenu.Positioner className={cn("app-region-no-drag z-50", positionerClassName)}>
@@ -44,12 +50,20 @@ function ContextMenuContent({ className, positionerClassName, children, style, .
   );
 }
 
-function ContextMenuItem({ className, ...props }: React.ComponentProps<typeof BaseContextMenu.Item>) {
+function ContextMenuItem({
+  className,
+  ...props
+}: React.ComponentProps<typeof BaseContextMenu.Item>) {
   return <BaseContextMenu.Item className={cn(dropdownMenuItemClass, className)} {...props} />;
 }
 
-function ContextMenuSeparator({ className, ...props }: React.ComponentProps<typeof BaseContextMenu.Separator>) {
-  return <BaseContextMenu.Separator className={cn(dropdownMenuSeparatorClass, className)} {...props} />;
+function ContextMenuSeparator({
+  className,
+  ...props
+}: React.ComponentProps<typeof BaseContextMenu.Separator>) {
+  return (
+    <BaseContextMenu.Separator className={cn(dropdownMenuSeparatorClass, className)} {...props} />
+  );
 }
 
 export {

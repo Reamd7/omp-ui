@@ -1,9 +1,14 @@
-import * as React from "react"
-import { Menu as BaseMenu } from "@base-ui/react/menu"
-import { Check, ChevronRight } from "lucide-react"
+import * as React from "react";
+import { Menu as BaseMenu } from "@base-ui/react/menu";
+import { Check, ChevronRight } from "lucide-react";
 
-import { cn } from "@/lib/utils"
-import { dropdownMenuItemClass, dropdownMenuPopupClass, dropdownMenuSeparatorClass, dropdownMenuSubTriggerClass } from "./dropdown-menu.styles";
+import { cn } from "@/lib/utils";
+import {
+  dropdownMenuItemClass,
+  dropdownMenuPopupClass,
+  dropdownMenuSeparatorClass,
+  dropdownMenuSubTriggerClass,
+} from "./dropdown-menu.styles";
 
 type AsChildProps = { asChild?: boolean };
 type AsChildRenderProps = {
@@ -32,20 +37,21 @@ function renderFromAsChild(asChild: boolean | undefined, children: React.ReactNo
   return { children };
 }
 
-function DropdownMenu({
-  ...props
-}: React.ComponentProps<typeof BaseMenu.Root>) {
+function DropdownMenu({ ...props }: React.ComponentProps<typeof BaseMenu.Root>) {
   const [portalContainer, setPortalContainer] = React.useState<HTMLElement | null>(null);
-  const portalContextValue = React.useMemo<DropdownPortalContextValue>(() => ({
-    portalContainer,
-    setPortalContainer,
-  }), [portalContainer]);
+  const portalContextValue = React.useMemo<DropdownPortalContextValue>(
+    () => ({
+      portalContainer,
+      setPortalContainer,
+    }),
+    [portalContainer],
+  );
 
   return (
     <DropdownPortalContext.Provider value={portalContextValue}>
       <BaseMenu.Root {...props} />
     </DropdownPortalContext.Provider>
-  )
+  );
 }
 
 function DropdownMenuTrigger({
@@ -56,13 +62,16 @@ function DropdownMenuTrigger({
   ...props
 }: React.ComponentProps<typeof BaseMenu.Trigger> & AsChildProps) {
   const portalContext = React.useContext(DropdownPortalContext);
-  const syncPortalContainer = React.useCallback((target: EventTarget | null) => {
-    if (!portalContext) {
-      return;
-    }
-    const element = target instanceof HTMLElement ? target : null;
-    portalContext.setPortalContainer(resolveDialogContainer(element));
-  }, [portalContext]);
+  const syncPortalContainer = React.useCallback(
+    (target: EventTarget | null) => {
+      if (!portalContext) {
+        return;
+      }
+      const element = target instanceof HTMLElement ? target : null;
+      portalContext.setPortalContainer(resolveDialogContainer(element));
+    },
+    [portalContext],
+  );
 
   const r = renderFromAsChild(asChild, children);
   return (
@@ -79,7 +88,7 @@ function DropdownMenuTrigger({
       {...props}
       {...r}
     />
-  )
+  );
 }
 
 type ContentProps = {
@@ -93,7 +102,7 @@ type ContentProps = {
   className?: string;
   children?: React.ReactNode;
   onCloseAutoFocus?: (event: Event) => void;
-} & Omit<React.ComponentProps<typeof BaseMenu.Popup>, "style" | "className" | "children">
+} & Omit<React.ComponentProps<typeof BaseMenu.Popup>, "style" | "className" | "children">;
 
 function DropdownMenuContent({
   className,
@@ -109,10 +118,12 @@ function DropdownMenuContent({
   ...props
 }: ContentProps) {
   const portalContext = React.useContext(DropdownPortalContext);
-  void onCloseAutoFocus
+  void onCloseAutoFocus;
 
   return (
-    <BaseMenu.Portal container={portalToBody ? undefined : portalContext?.portalContainer || undefined}>
+    <BaseMenu.Portal
+      container={portalToBody ? undefined : portalContext?.portalContainer || undefined}
+    >
       <BaseMenu.Positioner
         sideOffset={sideOffset}
         align={align}
@@ -124,21 +135,18 @@ function DropdownMenuContent({
           data-slot="dropdown-menu-content"
           style={{
             // surface-elevated holds the popup bg; card-foreground is its matching text color
-            backgroundColor: 'var(--surface-elevated)',
-            color: 'var(--card-foreground)',
+            backgroundColor: "var(--surface-elevated)",
+            color: "var(--card-foreground)",
             ...style,
           }}
-          className={cn(
-            dropdownMenuPopupClass,
-            className
-          )}
+          className={cn(dropdownMenuPopupClass, className)}
           {...props}
         >
           {children}
         </BaseMenu.Popup>
       </BaseMenu.Positioner>
     </BaseMenu.Portal>
-  )
+  );
 }
 
 function DropdownMenuItem({
@@ -150,13 +158,16 @@ function DropdownMenuItem({
   onSelect,
   onClick,
   ...props
-}: React.ComponentProps<typeof BaseMenu.Item> & AsChildProps & {
-  inset?: boolean
-  variant?: "default" | "destructive"
-  onSelect?: React.ComponentProps<typeof BaseMenu.Item>["onClick"]
-}) {
+}: React.ComponentProps<typeof BaseMenu.Item> &
+  AsChildProps & {
+    inset?: boolean;
+    variant?: "default" | "destructive";
+    onSelect?: React.ComponentProps<typeof BaseMenu.Item>["onClick"];
+  }) {
   const r = renderFromAsChild(asChild, children);
-  const handleClick: NonNullable<React.ComponentProps<typeof BaseMenu.Item>["onClick"]> = (event) => {
+  const handleClick: NonNullable<React.ComponentProps<typeof BaseMenu.Item>["onClick"]> = (
+    event,
+  ) => {
     onClick?.(event);
     if (!event.defaultPrevented) onSelect?.(event);
   };
@@ -165,21 +176,16 @@ function DropdownMenuItem({
       data-slot="dropdown-menu-item"
       data-inset={inset}
       data-variant={variant}
-      className={cn(
-        dropdownMenuItemClass,
-        className
-      )}
+      className={cn(dropdownMenuItemClass, className)}
       {...props}
       onClick={handleClick}
       {...r}
     />
-  )
+  );
 }
 
-function DropdownMenuRadioGroup({
-  ...props
-}: React.ComponentProps<typeof BaseMenu.RadioGroup>) {
-  return <BaseMenu.RadioGroup data-slot="dropdown-menu-radio-group" {...props} />
+function DropdownMenuRadioGroup({ ...props }: React.ComponentProps<typeof BaseMenu.RadioGroup>) {
+  return <BaseMenu.RadioGroup data-slot="dropdown-menu-radio-group" {...props} />;
 }
 
 function DropdownMenuRadioItem({
@@ -192,7 +198,7 @@ function DropdownMenuRadioItem({
       data-slot="dropdown-menu-radio-item"
       className={cn(
         "data-[highlighted]:bg-interactive-hover hover:bg-interactive-hover data-[checked]:bg-interactive-selection data-[checked]:text-interactive-selection-foreground relative flex cursor-pointer items-start gap-2 rounded-lg py-1 pl-2 pr-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
-        className
+        className,
       )}
       {...props}
     >
@@ -203,7 +209,7 @@ function DropdownMenuRadioItem({
       </span>
       {children}
     </BaseMenu.RadioItem>
-  )
+  );
 }
 
 function DropdownMenuLabel({
@@ -211,19 +217,16 @@ function DropdownMenuLabel({
   inset,
   ...props
 }: React.ComponentProps<"div"> & {
-  inset?: boolean
+  inset?: boolean;
 }) {
   return (
     <div
       data-slot="dropdown-menu-label"
       data-inset={inset}
-      className={cn(
-        "px-2 py-1 text-sm font-medium data-[inset]:pl-8",
-        className
-      )}
+      className={cn("px-2 py-1 text-sm font-medium data-[inset]:pl-8", className)}
       {...props}
     />
-  )
+  );
 }
 
 function DropdownMenuSeparator({
@@ -236,13 +239,11 @@ function DropdownMenuSeparator({
       className={cn(dropdownMenuSeparatorClass, className)}
       {...props}
     />
-  )
+  );
 }
 
-function DropdownMenuSub({
-  ...props
-}: React.ComponentProps<typeof BaseMenu.SubmenuRoot>) {
-  return <BaseMenu.SubmenuRoot {...props} />
+function DropdownMenuSub({ ...props }: React.ComponentProps<typeof BaseMenu.SubmenuRoot>) {
+  return <BaseMenu.SubmenuRoot {...props} />;
 }
 
 function DropdownMenuSubTrigger({
@@ -251,22 +252,19 @@ function DropdownMenuSubTrigger({
   children,
   ...props
 }: React.ComponentProps<typeof BaseMenu.SubmenuTrigger> & {
-  inset?: boolean
+  inset?: boolean;
 }) {
   return (
     <BaseMenu.SubmenuTrigger
       data-slot="dropdown-menu-sub-trigger"
       data-inset={inset}
-      className={cn(
-        dropdownMenuSubTriggerClass,
-        className
-      )}
+      className={cn(dropdownMenuSubTriggerClass, className)}
       {...props}
     >
       {children}
       <ChevronRight className="ml-auto size-3.5" />
     </BaseMenu.SubmenuTrigger>
-  )
+  );
 }
 
 function DropdownMenuSubContent({
@@ -281,20 +279,17 @@ function DropdownMenuSubContent({
         <BaseMenu.Popup
           data-slot="dropdown-menu-sub-content"
           style={{
-            backgroundColor: 'var(--surface-elevated)',
-            color: 'var(--card-foreground)',
+            backgroundColor: "var(--surface-elevated)",
+            color: "var(--card-foreground)",
           }}
-          className={cn(
-            dropdownMenuPopupClass,
-            className
-          )}
+          className={cn(dropdownMenuPopupClass, className)}
           {...props}
         >
           {children}
         </BaseMenu.Popup>
       </BaseMenu.Positioner>
     </BaseMenu.Portal>
-  )
+  );
 }
 
 export {
@@ -309,4 +304,4 @@ export {
   DropdownMenuSub,
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
-}
+};

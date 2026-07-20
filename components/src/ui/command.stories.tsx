@@ -1,14 +1,6 @@
-import * as React from 'react'
-import type { Meta, StoryObj } from "@storybook/react"
-import {
-  Calendar,
-  File,
-  HelpCircle,
-  Home,
-  Search,
-  Settings,
-  User,
-} from "lucide-react"
+import * as React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { Calendar, File, HelpCircle, Home, Search, Settings, User } from "lucide-react";
 
 import {
   Command,
@@ -19,18 +11,18 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from "./command"
+} from "./command";
 
 const meta: Meta<typeof Command> = {
   title: "UI/Command",
   component: Command,
   tags: ["autodocs"],
   parameters: { layout: "centered" },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof Command>
+type Story = StoryObj<typeof Command>;
 
 /**
  * Inline command palette — renders `<Command>` directly without any Dialog
@@ -75,7 +67,7 @@ export const Default: Story = {
       </Command>
     </div>
   ),
-}
+};
 
 /**
  * Grouped command list with shortcuts and separators across multiple sections.
@@ -127,7 +119,7 @@ export const WithGroups: Story = {
       </Command>
     </div>
   ),
-}
+};
 
 /**
  * Empty state — `<CommandEmpty>` shows when no items match the filter.
@@ -143,7 +135,7 @@ export const WithEmptyState: Story = {
       </Command>
     </div>
   ),
-}
+};
 
 /**
  * All structural sub-components in one palette for visual cross-reference.
@@ -187,4 +179,4 @@ export const AllVariants: Story = {
       </Command>
     </div>
   ),
-}
+};

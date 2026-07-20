@@ -1,11 +1,11 @@
-import * as React from "react"
-import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip"
+import * as React from "react";
+import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
-const MOBILE_LONG_PRESS_DELAY = 600
-const MOBILE_LONG_PRESS_CLOSE_DELAY = 1600
-const MOBILE_LONG_PRESS_MOVE_TOLERANCE = 10
+const MOBILE_LONG_PRESS_DELAY = 600;
+const MOBILE_LONG_PRESS_CLOSE_DELAY = 1600;
+const MOBILE_LONG_PRESS_MOVE_TOLERANCE = 10;
 
 type LongPressTooltipContextValue = {
   handlePointerDown: (event: React.PointerEvent<HTMLElement>) => void;
@@ -15,17 +15,20 @@ type LongPressTooltipContextValue = {
   handleContextMenu: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
-const LongPressTooltipContext = React.createContext<LongPressTooltipContextValue | null>(null)
+const LongPressTooltipContext = React.createContext<LongPressTooltipContextValue | null>(null);
 
 type AsChildRenderProps = {
   render?: React.ReactElement;
   children?: React.ReactNode;
 };
 
-class TooltipPartBoundary extends React.Component<{
-  children: React.ReactNode;
-  fallback?: React.ReactNode;
-}, { hasError: boolean }> {
+class TooltipPartBoundary extends React.Component<
+  {
+    children: React.ReactNode;
+    fallback?: React.ReactNode;
+  },
+  { hasError: boolean }
+> {
   state = { hasError: false };
 
   static getDerivedStateFromError() {
@@ -59,139 +62,146 @@ function TooltipProvider({
       closeDelay={closeDelay ?? skipDelayDuration}
       {...props}
     />
-  )
+  );
 }
 
 type TooltipRootProps = React.ComponentProps<typeof BaseTooltip.Root> & {
-  delayDuration?: number
-}
+  delayDuration?: number;
+};
 
-type TooltipChangeEventDetails = Parameters<NonNullable<TooltipRootProps['onOpenChange']>>[1]
+type TooltipChangeEventDetails = Parameters<NonNullable<TooltipRootProps["onOpenChange"]>>[1];
 
-function Tooltip({
-  delayDuration,
-  open,
-  onOpenChange,
-  ...props
-}: TooltipRootProps) {
-  const [longPressOpen, setLongPressOpen] = React.useState(false)
-  const longPressTimeoutRef = React.useRef<number | null>(null)
-  const closeTimeoutRef = React.useRef<number | null>(null)
-  const startPointRef = React.useRef<{ x: number; y: number } | null>(null)
-  const suppressClickRef = React.useRef(false)
-  const controlled = open !== undefined
-  const tooltipOpen = controlled ? open : longPressOpen
+function Tooltip({ delayDuration, open, onOpenChange, ...props }: TooltipRootProps) {
+  const [longPressOpen, setLongPressOpen] = React.useState(false);
+  const longPressTimeoutRef = React.useRef<number | null>(null);
+  const closeTimeoutRef = React.useRef<number | null>(null);
+  const startPointRef = React.useRef<{ x: number; y: number } | null>(null);
+  const suppressClickRef = React.useRef(false);
+  const controlled = open !== undefined;
+  const tooltipOpen = controlled ? open : longPressOpen;
 
   const clearLongPressTimeout = React.useCallback(() => {
     if (longPressTimeoutRef.current !== null) {
-      window.clearTimeout(longPressTimeoutRef.current)
-      longPressTimeoutRef.current = null
+      window.clearTimeout(longPressTimeoutRef.current);
+      longPressTimeoutRef.current = null;
     }
-  }, [])
+  }, []);
 
   const clearCloseTimeout = React.useCallback(() => {
     if (closeTimeoutRef.current !== null) {
-      window.clearTimeout(closeTimeoutRef.current)
-      closeTimeoutRef.current = null
+      window.clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
     }
-  }, [])
+  }, []);
 
-  const setTooltipOpen = React.useCallback((nextOpen: boolean) => {
-    if (!controlled) {
-      setLongPressOpen(nextOpen)
-    }
-  }, [controlled])
-
-  const contextValue = React.useMemo<LongPressTooltipContextValue>(() => ({
-    handlePointerDown: (event) => {
-      if (event.pointerType !== 'touch' && event.pointerType !== 'pen') {
-        return
+  const setTooltipOpen = React.useCallback(
+    (nextOpen: boolean) => {
+      if (!controlled) {
+        setLongPressOpen(nextOpen);
       }
+    },
+    [controlled],
+  );
 
-      clearLongPressTimeout()
-      clearCloseTimeout()
-      startPointRef.current = { x: event.clientX, y: event.clientY }
-
-      longPressTimeoutRef.current = window.setTimeout(() => {
-        if (controlled) {
-          return
+  const contextValue = React.useMemo<LongPressTooltipContextValue>(
+    () => ({
+      handlePointerDown: (event) => {
+        if (event.pointerType !== "touch" && event.pointerType !== "pen") {
+          return;
         }
 
-        suppressClickRef.current = true
-        setTooltipOpen(true)
-      }, MOBILE_LONG_PRESS_DELAY)
-    },
-    handlePointerMove: (event) => {
-      const startPoint = startPointRef.current
+        clearLongPressTimeout();
+        clearCloseTimeout();
+        startPointRef.current = { x: event.clientX, y: event.clientY };
 
-      if (!startPoint) {
-        return
-      }
+        longPressTimeoutRef.current = window.setTimeout(() => {
+          if (controlled) {
+            return;
+          }
 
-      const movedX = Math.abs(event.clientX - startPoint.x)
-      const movedY = Math.abs(event.clientY - startPoint.y)
+          suppressClickRef.current = true;
+          setTooltipOpen(true);
+        }, MOBILE_LONG_PRESS_DELAY);
+      },
+      handlePointerMove: (event) => {
+        const startPoint = startPointRef.current;
 
-      if (movedX > MOBILE_LONG_PRESS_MOVE_TOLERANCE || movedY > MOBILE_LONG_PRESS_MOVE_TOLERANCE) {
-        clearLongPressTimeout()
-        startPointRef.current = null
-      }
-    },
-    handlePointerEnd: () => {
-      clearLongPressTimeout()
-      startPointRef.current = null
+        if (!startPoint) {
+          return;
+        }
 
-      if (suppressClickRef.current) {
-        clearCloseTimeout()
-        closeTimeoutRef.current = window.setTimeout(() => {
-          suppressClickRef.current = false
-          setTooltipOpen(false)
-        }, MOBILE_LONG_PRESS_CLOSE_DELAY)
-      }
-    },
-    handleClickCapture: (event) => {
-      if (!suppressClickRef.current) {
-        return
-      }
+        const movedX = Math.abs(event.clientX - startPoint.x);
+        const movedY = Math.abs(event.clientY - startPoint.y);
 
-      suppressClickRef.current = false
-      event.preventDefault()
-      event.stopPropagation()
-    },
-    handleContextMenu: (event) => {
-      if (!suppressClickRef.current) {
-        return
-      }
+        if (
+          movedX > MOBILE_LONG_PRESS_MOVE_TOLERANCE ||
+          movedY > MOBILE_LONG_PRESS_MOVE_TOLERANCE
+        ) {
+          clearLongPressTimeout();
+          startPointRef.current = null;
+        }
+      },
+      handlePointerEnd: () => {
+        clearLongPressTimeout();
+        startPointRef.current = null;
 
-      event.preventDefault()
-    },
-  }), [clearCloseTimeout, clearLongPressTimeout, controlled, setTooltipOpen])
+        if (suppressClickRef.current) {
+          clearCloseTimeout();
+          closeTimeoutRef.current = window.setTimeout(() => {
+            suppressClickRef.current = false;
+            setTooltipOpen(false);
+          }, MOBILE_LONG_PRESS_CLOSE_DELAY);
+        }
+      },
+      handleClickCapture: (event) => {
+        if (!suppressClickRef.current) {
+          return;
+        }
+
+        suppressClickRef.current = false;
+        event.preventDefault();
+        event.stopPropagation();
+      },
+      handleContextMenu: (event) => {
+        if (!suppressClickRef.current) {
+          return;
+        }
+
+        event.preventDefault();
+      },
+    }),
+    [clearCloseTimeout, clearLongPressTimeout, controlled, setTooltipOpen],
+  );
 
   React.useEffect(() => {
     return () => {
-      clearLongPressTimeout()
-      clearCloseTimeout()
-    }
-  }, [clearCloseTimeout, clearLongPressTimeout])
+      clearLongPressTimeout();
+      clearCloseTimeout();
+    };
+  }, [clearCloseTimeout, clearLongPressTimeout]);
 
-  const handleOpenChange = React.useCallback((nextOpen: boolean, event: TooltipChangeEventDetails) => {
-    if (!controlled) {
-      setLongPressOpen(nextOpen)
-    }
+  const handleOpenChange = React.useCallback(
+    (nextOpen: boolean, event: TooltipChangeEventDetails) => {
+      if (!controlled) {
+        setLongPressOpen(nextOpen);
+      }
 
-    onOpenChange?.(nextOpen, event)
-  }, [controlled, onOpenChange])
+      onOpenChange?.(nextOpen, event);
+    },
+    [controlled, onOpenChange],
+  );
 
   const tooltip = (
     <LongPressTooltipContext.Provider value={contextValue}>
       <BaseTooltip.Root open={tooltipOpen} onOpenChange={handleOpenChange} {...props} />
     </LongPressTooltipContext.Provider>
-  )
+  );
 
   if (delayDuration === undefined) {
-    return tooltip
+    return tooltip;
   }
 
-  return <TooltipProvider delayDuration={delayDuration}>{tooltip}</TooltipProvider>
+  return <TooltipProvider delayDuration={delayDuration}>{tooltip}</TooltipProvider>;
 }
 
 function TooltipTrigger({
@@ -205,51 +215,52 @@ function TooltipTrigger({
   onContextMenu,
   ...props
 }: React.ComponentProps<typeof BaseTooltip.Trigger> & { asChild?: boolean }) {
-  const longPressTooltip = React.useContext(LongPressTooltipContext)
-  const renderProps: AsChildRenderProps = asChild && React.isValidElement(children)
-    ? { render: children as React.ReactElement }
-    : { children };
+  const longPressTooltip = React.useContext(LongPressTooltipContext);
+  const renderProps: AsChildRenderProps =
+    asChild && React.isValidElement(children)
+      ? { render: children as React.ReactElement }
+      : { children };
   return (
     <TooltipPartBoundary fallback={children}>
       <BaseTooltip.Trigger
         data-slot="tooltip-trigger"
         onPointerDown={(event) => {
-          onPointerDown?.(event)
-          longPressTooltip?.handlePointerDown(event)
+          onPointerDown?.(event);
+          longPressTooltip?.handlePointerDown(event);
         }}
         onPointerMove={(event) => {
-          onPointerMove?.(event)
-          longPressTooltip?.handlePointerMove(event)
+          onPointerMove?.(event);
+          longPressTooltip?.handlePointerMove(event);
         }}
         onPointerUp={(event) => {
-          onPointerUp?.(event)
-          longPressTooltip?.handlePointerEnd()
+          onPointerUp?.(event);
+          longPressTooltip?.handlePointerEnd();
         }}
         onPointerCancel={(event) => {
-          onPointerCancel?.(event)
-          longPressTooltip?.handlePointerEnd()
+          onPointerCancel?.(event);
+          longPressTooltip?.handlePointerEnd();
         }}
         onClickCapture={(event) => {
-          longPressTooltip?.handleClickCapture(event)
+          longPressTooltip?.handleClickCapture(event);
           if (event.defaultPrevented) {
-            return
+            return;
           }
 
-          onClickCapture?.(event)
+          onClickCapture?.(event);
         }}
         onContextMenu={(event) => {
-          longPressTooltip?.handleContextMenu(event)
+          longPressTooltip?.handleContextMenu(event);
           if (event.defaultPrevented) {
-            return
+            return;
           }
 
-          onContextMenu?.(event)
+          onContextMenu?.(event);
         }}
         {...props}
         {...renderProps}
       />
     </TooltipPartBoundary>
-  )
+  );
 }
 
 type ContentProps = React.ComponentProps<typeof BaseTooltip.Popup> & {
@@ -275,7 +286,7 @@ function TooltipContent({
             data-slot="tooltip-content"
             className={cn(
               "bg-[var(--surface-elevated)] text-card-foreground border border-border/60 transition-all duration-150 ease-out data-[starting-style]:opacity-0 data-[starting-style]:scale-95 data-[ending-style]:opacity-0 data-[ending-style]:scale-95 z-50 w-fit origin-[var(--transform-origin)] rounded-xl px-3 py-1.5 text-xs text-balance overflow-hidden",
-              className
+              className,
             )}
             style={{ ...style }}
             {...props}
@@ -286,7 +297,7 @@ function TooltipContent({
         </BaseTooltip.Positioner>
       </BaseTooltip.Portal>
     </TooltipPartBoundary>
-  )
+  );
 }
 
-export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };

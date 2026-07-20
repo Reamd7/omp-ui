@@ -29,9 +29,7 @@ const variants = [
             : Array.isArray(children)
               ? children
                   .map((item) =>
-                    typeof item === "string" || typeof item === "number"
-                      ? String(item)
-                      : ""
+                    typeof item === "string" || typeof item === "number" ? String(item) : "",
                   )
                   .join("")
               : "";
@@ -44,9 +42,7 @@ const variants = [
             <motion.span
               {...props}
               key={char + String(index)}
-              className={cn(
-                "inline-block whitespace-pre align-baseline"
-              )}
+              className={cn("inline-block whitespace-pre align-baseline")}
               initial={{ opacity: 0 }}
               animate={{
                 opacity: 1,
@@ -76,7 +72,7 @@ const variants = [
           className={cn(
             "absolute top-0 left-0 text-primary-muted transition-transform duration-500 ease-in-out",
             "group-hover:-translate-y-full hover:duration-300",
-            className
+            className,
           )}
         >
           {children}
@@ -86,7 +82,7 @@ const variants = [
           className={cn(
             "absolute top-0 left-0 translate-y-full text-primary-muted transition-transform duration-500",
             "ease-in-out hover:duration-300 group-hover:translate-y-0",
-            className
+            className,
           )}
         >
           {children}
@@ -102,16 +98,14 @@ const variants = [
       const DURATION = 0.25;
       const STAGGER = 0.025;
 
-      const letters = children
-        .split("")
-        .map((letter) => (letter === " " ? "\u00A0" : letter));
+      const letters = children.split("").map((letter) => (letter === " " ? "\u00A0" : letter));
 
       return (
         <motion.span
           {...props}
           className={cn(
             "relative block select-none overflow-hidden whitespace-nowrap text-primary-muted",
-            className
+            className,
           )}
           initial="initial"
           whileHover="hovered"
@@ -162,10 +156,7 @@ const variants = [
   {
     variant: "shake",
     component: ({ children, className, ...props }) => (
-      <span
-        {...props}
-        className={cn("text-primary-muted hover:animate-text-shake", className)}
-      >
+      <span {...props} className={cn("text-primary-muted hover:animate-text-shake", className)}>
         {children}
       </span>
     ),
@@ -176,7 +167,7 @@ const variants = [
       <div
         className={cn(
           "relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-bottom-right",
-          "after:scale-x-0 after:bg-primary-muted after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-left hover:after:scale-x-100"
+          "after:scale-x-0 after:bg-primary-muted after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-left hover:after:scale-x-100",
         )}
       >
         <span {...props} className={cn("text-primary-muted", className)}>

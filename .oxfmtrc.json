@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "//": "oxfmt 配置 — oxc 项目的 Rust formatter。匹配 openchamber 风格（双引号 + 分号 + 2 空格）",
+  "quoteStyle": "double",
+  "semi": true,
+  "tabWidth": 2,
+  "printWidth": 100,
+  "trailingComma": "all"
+}

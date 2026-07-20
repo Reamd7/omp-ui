@@ -25,21 +25,21 @@ function mergeRefs<T>(...refs: Array<React.Ref<T>>): React.RefCallback<T> {
 }
 
 export const ScrollShadow = React.forwardRef<HTMLElement, ScrollShadowProps>(
-      (
-      {
-        as: Component = "div",
-        orientation = "vertical",
-        offset = 0,
-        size = 48,
-        isEnabled = true,
-        hideTopShadow = false,
-        hideBottomShadow = false,
-        observeMutations = true,
-        onVisibilityChange,
-        style,
-        className,
-        children,
-        ...rest
+  (
+    {
+      as: Component = "div",
+      orientation = "vertical",
+      offset = 0,
+      size = 48,
+      isEnabled = true,
+      hideTopShadow = false,
+      hideBottomShadow = false,
+      observeMutations = true,
+      onVisibilityChange,
+      style,
+      className,
+      children,
+      ...rest
     },
     ref,
   ) => {
@@ -58,8 +58,15 @@ export const ScrollShadow = React.forwardRef<HTMLElement, ScrollShadowProps>(
     }, [size, style]);
 
     const setAttributes = React.useCallback(
-      (el: HTMLElement, hasBefore: boolean, hasAfter: boolean, prefix: "top" | "left", suffix: "bottom" | "right") => {
-        const bothKey = `${prefix}${suffix.charAt(0).toUpperCase()}${suffix.slice(1)}Scroll` as const;
+      (
+        el: HTMLElement,
+        hasBefore: boolean,
+        hasAfter: boolean,
+        prefix: "top" | "left",
+        suffix: "bottom" | "right",
+      ) => {
+        const bothKey =
+          `${prefix}${suffix.charAt(0).toUpperCase()}${suffix.slice(1)}Scroll` as const;
 
         if (hasBefore && hasAfter) {
           (el.dataset as Record<string, string>)[bothKey] = "true";
@@ -108,14 +115,40 @@ export const ScrollShadow = React.forwardRef<HTMLElement, ScrollShadowProps>(
         hasAfter = false;
       }
 
-      setAttributes(el, effectiveHasBefore, hasAfter, orientation === "vertical" ? "top" : "left", orientation === "vertical" ? "bottom" : "right");
+      setAttributes(
+        el,
+        effectiveHasBefore,
+        hasAfter,
+        orientation === "vertical" ? "top" : "left",
+        orientation === "vertical" ? "bottom" : "right",
+      );
 
-      const next = effectiveHasBefore && hasAfter ? "both" : effectiveHasBefore ? (orientation === "vertical" ? "top" : "left") : hasAfter ? (orientation === "vertical" ? "bottom" : "right") : "none";
+      const next =
+        effectiveHasBefore && hasAfter
+          ? "both"
+          : effectiveHasBefore
+            ? orientation === "vertical"
+              ? "top"
+              : "left"
+            : hasAfter
+              ? orientation === "vertical"
+                ? "bottom"
+                : "right"
+              : "none";
       if (next !== visibleRef.current) {
         visibleRef.current = next;
         onVisibilityChange?.(next);
       }
-    }, [clearAttributes, hideTopShadow, hideBottomShadow, isEnabled, offset, onVisibilityChange, orientation, setAttributes]);
+    }, [
+      clearAttributes,
+      hideTopShadow,
+      hideBottomShadow,
+      isEnabled,
+      offset,
+      onVisibilityChange,
+      orientation,
+      setAttributes,
+    ]);
 
     React.useEffect(() => {
       const el = internalRef.current;
@@ -132,9 +165,12 @@ export const ScrollShadow = React.forwardRef<HTMLElement, ScrollShadowProps>(
       };
 
       const handleScroll = () => checkOverflow(); // Scroll should be immediate
-      const resizeObserver = typeof ResizeObserver !== "undefined" ? new ResizeObserver(throttledCheck) : null;
+      const resizeObserver =
+        typeof ResizeObserver !== "undefined" ? new ResizeObserver(throttledCheck) : null;
       const mutationObserver =
-        observeMutations && typeof MutationObserver !== "undefined" ? new MutationObserver(throttledCheck) : null;
+        observeMutations && typeof MutationObserver !== "undefined"
+          ? new MutationObserver(throttledCheck)
+          : null;
 
       checkOverflow();
 

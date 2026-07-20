@@ -17,12 +17,20 @@ function mergeProps(childProps: AnyProps, slotProps: AnyProps): AnyProps {
   for (const key in childProps) {
     const slotValue = slotProps[key];
     const childValue = childProps[key];
-    if (/^on[A-Z]/.test(key) && typeof slotValue === "function" && typeof childValue === "function") {
+    if (
+      /^on[A-Z]/.test(key) &&
+      typeof slotValue === "function" &&
+      typeof childValue === "function"
+    ) {
       merged[key] = (...args: unknown[]) => {
         (childValue as (...a: unknown[]) => unknown)(...args);
         (slotValue as (...a: unknown[]) => unknown)(...args);
       };
-    } else if (key === "className" && typeof slotValue === "string" && typeof childValue === "string") {
+    } else if (
+      key === "className" &&
+      typeof slotValue === "string" &&
+      typeof childValue === "string"
+    ) {
       merged[key] = `${childValue} ${slotValue}`;
     } else if (key === "style" && typeof slotValue === "object" && typeof childValue === "object") {
       merged[key] = { ...(childValue as object), ...(slotValue as object) };
@@ -45,6 +53,9 @@ export const Slot = React.forwardRef<HTMLElement, SlotProps>(function Slot(
   const child = children as React.ReactElement<AnyProps & { ref?: React.Ref<unknown> }>;
   return React.cloneElement(child, {
     ...mergeProps(child.props as AnyProps, slotProps as AnyProps),
-    ref: mergeRefs(ref as React.Ref<unknown>, (child as unknown as { ref?: React.Ref<unknown> }).ref),
+    ref: mergeRefs(
+      ref as React.Ref<unknown>,
+      (child as unknown as { ref?: React.Ref<unknown> }).ref,
+    ),
   } as AnyProps);
 });

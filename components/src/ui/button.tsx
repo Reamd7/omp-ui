@@ -1,8 +1,8 @@
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "@/lib/utils"
-import { Slot } from "./slot"
+import { cn } from "@/lib/utils";
+import { Slot } from "./slot";
 
 // Flat tinted buttons: very pale tinted fill (a desaturated version of the
 // border tone) + saturated tinted border + saturated tinted text. No
@@ -18,7 +18,7 @@ const TINT_PRIMARY = [
   "dark:border-[color-mix(in_srgb,var(--primary-base)_20%,transparent)]",
   "dark:hover:bg-[color-mix(in_srgb,var(--primary-base)_22%,transparent)]",
   "dark:active:bg-[color-mix(in_srgb,var(--primary-base)_30%,transparent)]",
-].join(" ")
+].join(" ");
 
 const TINT_DESTRUCTIVE = [
   "bg-[color-mix(in_srgb,var(--status-error)_7%,var(--background))]",
@@ -30,7 +30,7 @@ const TINT_DESTRUCTIVE = [
   "dark:border-[color-mix(in_srgb,var(--status-error)_14%,transparent)]",
   "dark:hover:bg-[color-mix(in_srgb,var(--status-error)_14%,transparent)]",
   "dark:active:bg-[color-mix(in_srgb,var(--status-error)_20%,transparent)]",
-].join(" ")
+].join(" ");
 
 const buttonVariants = cva(
   [
@@ -67,10 +67,8 @@ const buttonVariants = cva(
           "dark:aria-pressed:border-[color-mix(in_srgb,var(--primary-base)_20%,transparent)]",
           "dark:aria-pressed:hover:bg-[color-mix(in_srgb,var(--primary-base)_22%,transparent)]",
         ),
-        secondary:
-          "bg-interactive-hover text-foreground hover:bg-interactive-active",
-        ghost:
-          "text-foreground hover:bg-interactive-hover hover:text-foreground",
+        secondary: "bg-interactive-hover text-foreground hover:bg-interactive-active",
+        ghost: "text-foreground hover:bg-interactive-hover hover:text-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
@@ -85,8 +83,8 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
-)
+  },
+);
 
 function Button({
   className,
@@ -97,12 +95,10 @@ function Button({
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
+    asChild?: boolean;
   }) {
-  const Comp = asChild ? Slot : "button"
-  const typeProps = asChild
-    ? (type === undefined ? {} : { type })
-    : { type: type ?? "button" }
+  const Comp = asChild ? Slot : "button";
+  const typeProps = asChild ? (type === undefined ? {} : { type }) : { type: type ?? "button" };
 
   return (
     <Comp
@@ -111,7 +107,7 @@ function Button({
       {...typeProps}
       {...props}
     />
-  )
+  );
 }
 
-export { Button, buttonVariants }
+export { Button, buttonVariants };

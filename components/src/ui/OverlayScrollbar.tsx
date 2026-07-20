@@ -22,7 +22,9 @@ const METRIC_EPSILON = 0.5;
 const EMPTY_THUMB: ThumbMetrics = { length: 0, offset: 0 };
 
 const isSameThumbMetrics = (a: ThumbMetrics, b: ThumbMetrics): boolean => {
-  return Math.abs(a.length - b.length) < METRIC_EPSILON && Math.abs(a.offset - b.offset) < METRIC_EPSILON;
+  return (
+    Math.abs(a.length - b.length) < METRIC_EPSILON && Math.abs(a.offset - b.offset) < METRIC_EPSILON
+  );
 };
 
 const OverlayScrollbarComponent: React.FC<OverlayScrollbarProps> = ({
@@ -57,7 +59,8 @@ const OverlayScrollbarComponent: React.FC<OverlayScrollbarProps> = ({
     const container = containerRef.current;
     if (!container) return;
 
-    const { scrollHeight, clientHeight, scrollTop, scrollWidth, clientWidth, scrollLeft } = container;
+    const { scrollHeight, clientHeight, scrollTop, scrollWidth, clientWidth, scrollLeft } =
+      container;
     const trackInset = 8;
 
     let nextVertical: ThumbMetrics = EMPTY_THUMB;
@@ -93,32 +96,35 @@ const OverlayScrollbarComponent: React.FC<OverlayScrollbarProps> = ({
     });
   }, [updateMetrics]);
 
-  const syncObservedElements = React.useCallback((container: HTMLElement, resizeObserver: ResizeObserver | null) => {
-    if (!resizeObserver) {
-      observedElementsRef.current.clear();
-      return;
-    }
-
-    const nextObserved = new Set<Element>();
-    nextObserved.add(container);
-    Array.from(container.children).forEach((child) => {
-      nextObserved.add(child);
-    });
-
-    observedElementsRef.current.forEach((element) => {
-      if (!nextObserved.has(element)) {
-        resizeObserver.unobserve(element);
+  const syncObservedElements = React.useCallback(
+    (container: HTMLElement, resizeObserver: ResizeObserver | null) => {
+      if (!resizeObserver) {
+        observedElementsRef.current.clear();
+        return;
       }
-    });
 
-    nextObserved.forEach((element) => {
-      if (!observedElementsRef.current.has(element)) {
-        resizeObserver.observe(element);
-      }
-    });
+      const nextObserved = new Set<Element>();
+      nextObserved.add(container);
+      Array.from(container.children).forEach((child) => {
+        nextObserved.add(child);
+      });
 
-    observedElementsRef.current = nextObserved;
-  }, []);
+      observedElementsRef.current.forEach((element) => {
+        if (!nextObserved.has(element)) {
+          resizeObserver.unobserve(element);
+        }
+      });
+
+      nextObserved.forEach((element) => {
+        if (!observedElementsRef.current.has(element)) {
+          resizeObserver.observe(element);
+        }
+      });
+
+      observedElementsRef.current = nextObserved;
+    },
+    [],
+  );
 
   const scheduleHide = React.useCallback(() => {
     if (hideTimeoutRef.current) {
@@ -146,7 +152,8 @@ const OverlayScrollbarComponent: React.FC<OverlayScrollbarProps> = ({
         return;
       }
       if (userIntentOnly && !isDraggingRef.current) {
-        const hasRecentUserIntent = Date.now() - lastUserIntentAtRef.current <= USER_SCROLL_INTENT_WINDOW_MS;
+        const hasRecentUserIntent =
+          Date.now() - lastUserIntentAtRef.current <= USER_SCROLL_INTENT_WINDOW_MS;
         if (!hasRecentUserIntent) {
           setVisible(false);
           return;
@@ -167,13 +174,13 @@ const OverlayScrollbarComponent: React.FC<OverlayScrollbarProps> = ({
     const onScroll = () => handleScroll();
     const onKeyDown = (event: KeyboardEvent) => {
       if (
-        event.key === 'ArrowUp'
-        || event.key === 'ArrowDown'
-        || event.key === 'PageUp'
-        || event.key === 'PageDown'
-        || event.key === 'Home'
-        || event.key === 'End'
-        || event.key === ' '
+        event.key === "ArrowUp" ||
+        event.key === "ArrowDown" ||
+        event.key === "PageUp" ||
+        event.key === "PageDown" ||
+        event.key === "Home" ||
+        event.key === "End" ||
+        event.key === " "
       ) {
         markUserIntent();
       }
@@ -226,7 +233,16 @@ const OverlayScrollbarComponent: React.FC<OverlayScrollbarProps> = ({
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
       if (metricsFrameRef.current) cancelAnimationFrame(metricsFrameRef.current);
     };
-  }, [containerRef, handleScroll, markUserIntent, observeMutations, scheduleMetricsUpdate, syncObservedElements, updateMetrics, userIntentOnly]);
+  }, [
+    containerRef,
+    handleScroll,
+    markUserIntent,
+    observeMutations,
+    scheduleMetricsUpdate,
+    syncObservedElements,
+    updateMetrics,
+    userIntentOnly,
+  ]);
 
   React.useEffect(() => {
     if (!suppressVisibility) {
@@ -242,7 +258,10 @@ const OverlayScrollbarComponent: React.FC<OverlayScrollbarProps> = ({
     }
   }, [suppressVisibility]);
 
-  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>, axis: "vertical" | "horizontal") => {
+  const handlePointerDown = (
+    event: React.PointerEvent<HTMLDivElement>,
+    axis: "vertical" | "horizontal",
+  ) => {
     const container = containerRef.current;
     if (!container) return;
 

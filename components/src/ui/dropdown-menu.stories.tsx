@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import type { Meta, StoryObj } from '@storybook/react'
+import { useState } from "react";
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   ChevronDown,
   ClipboardPaste,
@@ -9,7 +9,7 @@ import {
   Scissors,
   Share,
   Trash,
-} from 'lucide-react'
+} from "lucide-react";
 
 import {
   DropdownMenu,
@@ -23,18 +23,18 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from './dropdown-menu'
+} from "./dropdown-menu";
 
 const meta: Meta<typeof DropdownMenu> = {
-  title: 'UI/DropdownMenu',
+  title: "UI/DropdownMenu",
   component: DropdownMenu,
-  tags: ['autodocs'],
-  parameters: { layout: 'centered' },
-}
+  tags: ["autodocs"],
+  parameters: { layout: "centered" },
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof DropdownMenu>
+type Story = StoryObj<typeof DropdownMenu>;
 
 function TriggerButton({ label }: { label: string }) {
   return (
@@ -45,7 +45,7 @@ function TriggerButton({ label }: { label: string }) {
       {label}
       <ChevronDown className="size-4 opacity-70" />
     </button>
-  )
+  );
 }
 
 /** A flat list of menu items with destructive variant + inset. */
@@ -67,7 +67,7 @@ function ItemsDemo() {
         <DropdownMenuItem inset>Inset item</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
 
 /** Nested submenu using DropdownMenuSub. */
@@ -99,12 +99,12 @@ function SubmenuDemo() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
 
 /** Items grouped by a label + separator. */
 function SeparatorDemo() {
-  const [filter, setFilter] = useState('all')
+  const [filter, setFilter] = useState("all");
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -123,7 +123,7 @@ function SeparatorDemo() {
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
 
 /** Items that lead with a lucide icon. */
@@ -152,7 +152,7 @@ function WithIconsDemo() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
 
 /** Items showing a keyboard shortcut hint on the right. */
@@ -180,23 +180,23 @@ function WithShortcutDemo() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
 
-export const Items: Story = { render: () => <ItemsDemo /> }
-export const Submenu: Story = { render: () => <SubmenuDemo /> }
-export const Separator: Story = { render: () => <SeparatorDemo /> }
-export const WithIcons: Story = { render: () => <WithIconsDemo /> }
-export const WithShortcut: Story = { render: () => <WithShortcutDemo /> }
+export const Items: Story = { render: () => <ItemsDemo /> };
+export const Submenu: Story = { render: () => <SubmenuDemo /> };
+export const Separator: Story = { render: () => <SeparatorDemo /> };
+export const WithIcons: Story = { render: () => <WithIconsDemo /> };
+export const WithShortcut: Story = { render: () => <WithShortcutDemo /> };
 
 /** Aggregated view of the most common shapes for quick visual reference. */
 export const AllVariants: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
+    <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", alignItems: "center" }}>
       <ItemsDemo />
       <SubmenuDemo />
       <WithIconsDemo />
       <WithShortcutDemo />
     </div>
   ),
-}
+};

@@ -1,19 +1,19 @@
-import type { Meta, StoryObj } from "@storybook/react"
-import { useState } from "react"
+import type { Meta, StoryObj } from "@storybook/react";
+import { useState } from "react";
 
-import { Button } from "./button"
-import { ErrorBoundary } from "./ErrorBoundary"
+import { Button } from "./button";
+import { ErrorBoundary } from "./ErrorBoundary";
 
 const meta: Meta<typeof ErrorBoundary> = {
   title: "UI/ErrorBoundary",
   component: ErrorBoundary,
   tags: ["autodocs"],
   parameters: { layout: "centered" },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof ErrorBoundary>
+type Story = StoryObj<typeof ErrorBoundary>;
 
 /**
  * Default state — the boundary renders its children untouched when nothing
@@ -32,7 +32,7 @@ export const Default: Story = {
       </ErrorBoundary>
     </div>
   ),
-}
+};
 
 /**
  * Caught error — a child throws during render and the boundary displays the
@@ -46,7 +46,7 @@ export const CaughtError: Story = {
       </ErrorBoundary>
     </div>
   ),
-}
+};
 
 /**
  * Caught error with a custom fallback node — useful when consumers want to
@@ -66,7 +66,7 @@ export const CustomFallback: Story = {
       </ErrorBoundary>
     </div>
   ),
-}
+};
 
 /**
  * Toggle a child between healthy and throwing to demo the reset lifecycle.
@@ -79,16 +79,16 @@ export const ToggleError: Story = {
       </ErrorBoundary>
     </div>
   ),
-}
+};
 
 function ThrowOnRender({ message }: { message: string }): never {
-  throw new Error(message)
+  throw new Error(message);
 }
 
 function ToggleChild() {
-  const [shouldThrow, setShouldThrow] = useState(false)
+  const [shouldThrow, setShouldThrow] = useState(false);
   if (shouldThrow) {
-    throw new Error("Toggled error from child.")
+    throw new Error("Toggled error from child.");
   }
   return (
     <div className="flex flex-col items-center gap-3 p-4">
@@ -97,5 +97,5 @@ function ToggleChild() {
         Throw on next render
       </Button>
     </div>
-  )
+  );
 }

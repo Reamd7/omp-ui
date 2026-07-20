@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { Checkbox as BaseCheckbox } from '@base-ui/react/checkbox';
-import { Check, Minus } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import * as React from "react";
+import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
+import { Check, Minus } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface CheckboxProps {
   checked: boolean;
@@ -22,8 +22,8 @@ export const Checkbox = React.memo<CheckboxProps>(function Checkbox({
   className,
   iconClassName,
 }) {
-  const boxSize = 'h-[14px] w-[14px] min-h-[14px] min-w-[14px]';
-  const iconSize = 'h-[10px] w-[10px] min-h-[10px] min-w-[10px]';
+  const boxSize = "h-[14px] w-[14px] min-h-[14px] min-w-[14px]";
+  const iconSize = "h-[10px] w-[10px] min-h-[10px] min-w-[10px]";
   const isOn = checked || indeterminate;
   return (
     <BaseCheckbox.Root
@@ -34,34 +34,34 @@ export const Checkbox = React.memo<CheckboxProps>(function Checkbox({
       aria-label={ariaLabel}
       className={cn(
         // AlignUI-style rounded box. Use a real border so press/hover states never lose the outline.
-        'group/checkbox relative flex shrink-0 self-center items-center justify-center rounded-[4px] border outline-none',
+        "group/checkbox relative flex shrink-0 self-center items-center justify-center rounded-[4px] border outline-none",
         boxSize,
-        'transition-[background-color,border-color,box-shadow] duration-200 ease-out',
+        "transition-[background-color,border-color,box-shadow] duration-200 ease-out",
         // Drive fill directly from React props so the initial paint matches
         // the final state without waiting for Base UI to hydrate data attrs.
         isOn
-          ? 'border-[color:color-mix(in_srgb,var(--primary-base)_65%,var(--border))] bg-transparent shadow-none hover:bg-interactive-hover hover:border-[color:color-mix(in_srgb,var(--primary-base)_75%,var(--border))]'
-          : 'border-border bg-transparent shadow-none hover:bg-interactive-hover hover:border-border',
+          ? "border-[color:color-mix(in_srgb,var(--primary-base)_65%,var(--border))] bg-transparent shadow-none hover:bg-interactive-hover hover:border-[color:color-mix(in_srgb,var(--primary-base)_75%,var(--border))]"
+          : "border-border bg-transparent shadow-none hover:bg-interactive-hover hover:border-border",
         // focus: transparent offset so parent bg (e.g. sidebar) doesn't create a visible gap
-        'focus-visible:ring-2 focus-visible:ring-[var(--interactive-focus-ring)] focus-visible:ring-offset-1 focus-visible:ring-offset-transparent',
+        "focus-visible:ring-2 focus-visible:ring-[var(--interactive-focus-ring)] focus-visible:ring-offset-1 focus-visible:ring-offset-transparent",
         // disabled
-        'disabled:cursor-not-allowed disabled:opacity-50',
+        "disabled:cursor-not-allowed disabled:opacity-50",
         className,
       )}
     >
       <BaseCheckbox.Indicator
         keepMounted
         className={cn(
-          'flex items-center justify-center text-[var(--primary-base)]',
+          "flex items-center justify-center text-[var(--primary-base)]",
           // hide when fully unchecked (no state)
-          'data-[unchecked]:hidden',
+          "data-[unchecked]:hidden",
           iconClassName,
         )}
       >
         {indeterminate ? (
-          <Minus className={cn(iconSize, 'text-[var(--primary-base)]')} />
+          <Minus className={cn(iconSize, "text-[var(--primary-base)]")} />
         ) : (
-          <Check className={cn(iconSize, 'text-[var(--primary-base)]')} />
+          <Check className={cn(iconSize, "text-[var(--primary-base)]")} />
         )}
       </BaseCheckbox.Indicator>
     </BaseCheckbox.Root>

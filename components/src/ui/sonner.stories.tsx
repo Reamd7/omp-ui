@@ -1,20 +1,20 @@
-import * as React from 'react'
-import type { Meta, StoryObj } from "@storybook/react"
+import * as React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { Button } from "./button"
-import { Toaster } from "./sonner"
-import { toast } from "./toast"
+import { Button } from "./button";
+import { Toaster } from "./sonner";
+import { toast } from "./toast";
 
 const meta: Meta<typeof Toaster> = {
   title: "UI/Sonner",
   component: Toaster,
   tags: ["autodocs"],
   parameters: { layout: "centered" },
-}
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof Toaster>
+type Story = StoryObj<typeof Toaster>;
 
 /**
  * Click any button to fire a toast. The `<Toaster />` portal is mounted once
@@ -29,10 +29,7 @@ export const Default: Story = {
         <Button variant="outline" onClick={() => toast("Hello")}>
           toast()
         </Button>
-        <Button
-          variant="outline"
-          onClick={() => toast.success("Saved successfully")}
-        >
+        <Button variant="outline" onClick={() => toast.success("Saved successfully")}>
           success
         </Button>
         <Button
@@ -45,22 +42,16 @@ export const Default: Story = {
         >
           error
         </Button>
-        <Button
-          variant="outline"
-          onClick={() => toast.info("Heads up — this is informational")}
-        >
+        <Button variant="outline" onClick={() => toast.info("Heads up — this is informational")}>
           info
         </Button>
-        <Button
-          variant="outline"
-          onClick={() => toast.warning("Be careful with this action")}
-        >
+        <Button variant="outline" onClick={() => toast.warning("Be careful with this action")}>
           warning
         </Button>
       </div>
     </>
   ),
-}
+};
 
 /**
  * Each toast type rendered with its semantic icon colour.
@@ -78,9 +69,7 @@ export const AllTypes: Story = {
         </Button>
         <Button
           variant="outline"
-          onClick={() =>
-            toast.error("Error", { description: "Description below the title" })
-          }
+          onClick={() => toast.error("Error", { description: "Description below the title" })}
         >
           error
         </Button>
@@ -93,7 +82,7 @@ export const AllTypes: Story = {
       </div>
     </>
   ),
-}
+};
 
 /**
  * Stacked toasts — fire several in quick succession.
@@ -106,11 +95,11 @@ export const Stacked: Story = {
         <Button
           variant="outline"
           onClick={() => {
-            toast("First")
-            setTimeout(() => toast.success("Second"), 200)
-            setTimeout(() => toast.info("Third"), 400)
-            setTimeout(() => toast.warning("Fourth"), 600)
-            setTimeout(() => toast.error("Fifth"), 800)
+            toast("First");
+            setTimeout(() => toast.success("Second"), 200);
+            setTimeout(() => toast.info("Third"), 400);
+            setTimeout(() => toast.warning("Fourth"), 600);
+            setTimeout(() => toast.error("Fifth"), 800);
           }}
         >
           Fire 5 in a row
@@ -118,7 +107,7 @@ export const Stacked: Story = {
       </div>
     </>
   ),
-}
+};
 
 /**
  * Auto-dismiss behaviour — fires a toast and clears it via the helper.
@@ -131,8 +120,8 @@ export const AutoDismiss: Story = {
         <Button
           variant="outline"
           onClick={() => {
-            const id = toast("Dismissing in 2s...")
-            setTimeout(() => toast.dismiss(id), 2000)
+            const id = toast("Dismissing in 2s...");
+            setTimeout(() => toast.dismiss(id), 2000);
           }}
         >
           Dismiss after 2s
@@ -143,4 +132,4 @@ export const AutoDismiss: Story = {
       </div>
     </>
   ),
-}
+};

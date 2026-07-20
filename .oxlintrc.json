@@ -1,0 +1,71 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "import", "react"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+  },
+  "env": {
+    "builtin": true,
+    "browser": true,
+    "es2024": true
+  },
+  "settings": {
+    "react": {
+      "version": "19"
+    }
+  },
+  "rules": {
+    // 基础
+    "no-unused-vars": "warn",
+    "no-debugger": "error",
+    "no-console": "warn",
+    "eqeqeq": "error",
+    "no-empty": "warn",
+
+    // React —— 项目用 automatic JSX runtime（.storybook/main.ts 的 swc 配置），
+    "react-in-jsx-scope": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-key": "error",
+    "react/jsx-no-duplicate-props": "error",
+    "react/no-array-index-key": "warn",
+    "react/no-direct-mutation-state": "error",
+
+    "import/no-default-export": "off",
+    "import/no-named-as-default": "warn",
+
+    // P4 / P6 / P9 / P10: 历史踩坑驱动的 import 限制
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "storybook/react",
+            "message": "P4: Storybook v10 的类型从 '@storybook/react' 导入（带 @ 前缀）。'storybook/react'（无 @）不是有效子路径。"
+          }
+        ],
+        "patterns": [
+          { "group": ["@/components/*"], "message": "P6: 项目 alias 是 '@/*' → 'src/*'（没有 components 段）。用 './X'、'../X' 或 '@/ui/X'。" },
+          { "group": ["@openchamber/*"], "message": "P9/P10: 不依赖 openchamber 业务模块。" },
+          { "group": ["@opencode-ai/*"], "message": "P9/P10: 不依赖 opencode 业务 SDK。" },
+          { "group": ["@/stores/*"], "message": "P10: app 层状态不进原子层 / 当前项目无此路径。" },
+          { "group": ["@/sync/*"], "message": "P10: app 层同步不进原子层 / 当前项目无此路径。" },
+          { "group": ["@/hooks/*"], "message": "P10: app 层 hooks 不进原子层 / 当前项目无此路径。" },
+          { "group": ["@/lib/i18n", "@/lib/i18n/*"], "message": "P10: 原子层无 i18n，hardcode 英文。" },
+          { "group": ["@/lib/desktop", "@/lib/desktopNative"], "message": "P10: 不依赖 desktop helper，取 desktop 分支作默认。" },
+          { "group": ["@/lib/clipboard"], "message": "P10: 用 navigator.clipboard.writeText 替代。" },
+          { "group": ["@/components/icon/*"], "message": "P10: 用 lucide-react 个别导入替代 Icon 组件。" },
+          { "group": ["react-i18n"], "message": "P10: 原子层无 i18n。" }
+        ]
+      }
+    ]
+  },
+  "ignorePatterns": [
+    "dist",
+    "storybook-static",
+    "node_modules",
+    "**/*.config.{js,ts,mjs,cjs}",
+    "pnpm-lock.yaml"
+  ]
+}

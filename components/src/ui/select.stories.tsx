@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import type { Meta, StoryObj } from '@storybook/react'
+import { useState } from "react";
+import type { Meta, StoryObj } from "@storybook/react";
 
 import {
   Select,
@@ -10,24 +10,24 @@ import {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from './select'
+} from "./select";
 
 const meta: Meta<typeof Select> = {
-  title: 'UI/Select',
+  title: "UI/Select",
   component: Select,
-  tags: ['autodocs'],
-  parameters: { layout: 'centered' },
-}
+  tags: ["autodocs"],
+  parameters: { layout: "centered" },
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof Select>
+type Story = StoryObj<typeof Select>;
 
-const fruits = ['Apple', 'Banana', 'Blueberry', 'Grapes', 'Pineapple']
+const fruits = ["Apple", "Banana", "Blueberry", "Grapes", "Pineapple"];
 
 /** Controlled single-select that reports the chosen value. */
 function SingleSelectDemo() {
-  const [value, setValue] = useState<string>('Apple')
+  const [value, setValue] = useState<string>("Apple");
   return (
     <div className="flex flex-col items-center gap-3">
       <Select value={value} onValueChange={setValue}>
@@ -44,7 +44,7 @@ function SingleSelectDemo() {
       </Select>
       <span className="text-xs text-muted-foreground">Selected: {value}</span>
     </div>
-  )
+  );
 }
 
 /** No default value — placeholder is shown until the user picks one. */
@@ -62,7 +62,7 @@ function WithPlaceholderDemo() {
         ))}
       </SelectContent>
     </Select>
-  )
+  );
 }
 
 /** Disabled root — the trigger can't be opened. */
@@ -80,12 +80,12 @@ function DisabledDemo() {
         ))}
       </SelectContent>
     </Select>
-  )
+  );
 }
 
 /** Items organized into labelled groups separated by a divider. */
 function GroupsDemo() {
-  const [value, setValue] = useState<string | undefined>(undefined)
+  const [value, setValue] = useState<string | undefined>(undefined);
   return (
     <Select value={value} onValueChange={setValue}>
       <SelectTrigger className="w-56">
@@ -113,13 +113,13 @@ function GroupsDemo() {
         </SelectGroup>
       </SelectContent>
     </Select>
-  )
+  );
 }
 
 /** Sizes side by side for visual comparison. */
 function AllSizesDemo() {
   return (
-    <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
+    <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap" }}>
       <Select defaultValue="Apple">
         <SelectTrigger size="sm" className="w-40">
           <SelectValue />
@@ -145,23 +145,23 @@ function AllSizesDemo() {
         </SelectContent>
       </Select>
     </div>
-  )
+  );
 }
 
-export const SingleSelect: Story = { render: () => <SingleSelectDemo /> }
-export const WithPlaceholder: Story = { render: () => <WithPlaceholderDemo /> }
-export const Disabled: Story = { render: () => <DisabledDemo /> }
-export const Groups: Story = { render: () => <GroupsDemo /> }
-export const AllSizes: Story = { render: () => <AllSizesDemo /> }
+export const SingleSelect: Story = { render: () => <SingleSelectDemo /> };
+export const WithPlaceholder: Story = { render: () => <WithPlaceholderDemo /> };
+export const Disabled: Story = { render: () => <DisabledDemo /> };
+export const Groups: Story = { render: () => <GroupsDemo /> };
+export const AllSizes: Story = { render: () => <AllSizesDemo /> };
 
 /** Aggregated view of every Select variant for visual reference. */
 export const AllVariants: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+    <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start", flexWrap: "wrap" }}>
       <SingleSelectDemo />
       <WithPlaceholderDemo />
       <DisabledDemo />
       <GroupsDemo />
     </div>
   ),
-}
+};

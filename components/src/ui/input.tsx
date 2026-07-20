@@ -1,6 +1,6 @@
-import * as React from "react"
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   return (
@@ -14,7 +14,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
         "hover:[&:not(:focus)]:bg-[var(--surface-subtle)] hover:[&:not(:focus)]:ring-transparent",
         "focus:ring-2 focus:ring-[var(--interactive-focus-ring)] focus-visible:outline-none",
         "aria-invalid:ring-[var(--status-error)] aria-invalid:focus:ring-[var(--status-error)]",
-        className
+        className,
       )}
       spellCheck={false}
       autoComplete="off"
@@ -22,7 +22,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
       autoCapitalize="off"
       {...props}
     />
-  )
+  );
 }
 
-export { Input }
+export { Input };

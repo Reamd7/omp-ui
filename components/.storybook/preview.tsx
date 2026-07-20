@@ -1,7 +1,7 @@
-import * as React from 'react'
-import type { Preview } from '@storybook/react'
+import * as React from "react";
+import type { Preview } from "@storybook/react";
 // 全局样式：Tailwind v4 + 设计系统（语义令牌）+ base 层
-import '../src/index.css'
+import "../src/index.css";
 
 /**
  * bright/dark 两套主题通过工具栏的 globals.theme 切换。
@@ -15,7 +15,7 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
-    layout: 'centered',
+    layout: "centered",
     backgrounds: {
       // 让 Storybook 自带背景控件下线 — 由设计系统自己控制 bg-background
       disable: true,
@@ -23,19 +23,19 @@ const preview: Preview = {
     },
   },
   initialGlobals: {
-    theme: 'light',
+    theme: "light",
   },
   globalTypes: {
     theme: {
-      name: 'Theme',
-      description: 'Light / Dark 主题切换',
-      defaultValue: 'light',
+      name: "Theme",
+      description: "Light / Dark 主题切换",
+      defaultValue: "light",
       toolbar: {
-        title: 'Theme',
-        icon: 'circlehollow',
+        title: "Theme",
+        icon: "circlehollow",
         items: [
-          { value: 'light', icon: 'circlehollow', title: 'Light' },
-          { value: 'dark', icon: 'circle', title: 'Dark' },
+          { value: "light", icon: "circlehollow", title: "Light" },
+          { value: "dark", icon: "circle", title: "Dark" },
         ],
         dynamicTitle: true,
       },
@@ -43,13 +43,13 @@ const preview: Preview = {
   },
   decorators: [
     (Story, ctx) => {
-      const isDark = ctx.globals.theme === 'dark'
-      if (typeof document !== 'undefined') {
-        document.documentElement.classList.toggle('dark', isDark)
+      const isDark = ctx.globals.theme === "dark";
+      if (typeof document !== "undefined") {
+        document.documentElement.classList.toggle("dark", isDark);
       }
-      return <Story />
+      return <Story />;
     },
   ],
-}
+};
 
-export default preview
+export default preview;

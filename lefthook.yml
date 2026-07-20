@@ -3,9 +3,10 @@
 # 由根 package.json 的 "prepare": "lefthook install" 自动安装到 .git/hooks/
 #
 # 设计原则：
-#   1. 并行跑（parallel: true）—— 几个 invariant 互不依赖
+#   1. 并行跑（parallel: true）—— 几个检查互不依赖
 #   2. 增量触发（glob）—— 只在相关文件被改动时才跑对应检查
 #   3. 治本不治标 —— 每条规则都对应一个历史踩坑（见 .omp/memory-lint-report.md）
+#   4. 分层 —— typecheck / oxlint / format 是 pre-commit；commitlint 是 commit-msg
 
 pre-commit:
   parallel: true
@@ -14,7 +15,6 @@ pre-commit:
     typecheck:
       glob: 'components/**/*.{ts,tsx}'
       root: 'components/'
-      # 注意：tsc 不能只跑变更文件，但只在 .ts/.tsx 改动时才触发，避免文档/样式 commit 被拖慢
       run: pnpm typecheck
 
     # 🥈 Top-2: P1 invariant —— 专防 Storybook "React is not defined" 全员崩
@@ -31,3 +31,26 @@ pre-commit:
     ui-purity:
       glob: 'components/src/ui/**/*.{ts,tsx}'
       run: pnpm check:ui-purity
+
+    # oxlint —— P4/P6/P9/P10 的代码侧反馈 + 通用代码质量
+    # 比 tsc 快得多（Rust 实现，~1s），先跑 oxlint 立即反馈 import / 未用变量等问题
+    oxlint:
+      glob: 'components/**/*.{ts,tsx}'
+      run: pnpm exec oxlint {staged_files}
+
+    # oxfmt —— 检查格式（不自动修复，pre-commit 只 fail；本地跑 `pnpm format` 修）
+    # 跑在 components/ 整个目录（oxfmt 对单文件 --check 不稳），~0.5s
+    format:
+      glob: 'components/**/*.{ts,tsx,js,jsx,mjs,cjs,json,jsonc}'
+      run: pnpm format:check
+
+    # knip —— 检测未使用的导出 / 文件 / 依赖。全项目扫描（~1.6s），只在 src 或 package.json 改动时触发
+    knip:
+      glob: '{components/src/**,components/package.json,package.json,pnpm-workspace.yaml,knip.json}'
+      run: pnpm knip
+
+commit-msg:
+  commands:
+    # Conventional Commits —— feat/fix/docs/style/refactor/perf/test/build/ci/chore/revert
+    commitlint:
+      run: pnpm exec commitlint --edit {1}

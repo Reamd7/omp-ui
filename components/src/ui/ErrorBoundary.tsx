@@ -1,68 +1,63 @@
-import React from "react"
-import { RotateCcw, TriangleAlert } from "lucide-react"
+import React from "react";
+import { RotateCcw, TriangleAlert } from "lucide-react";
 
-import { Button } from "./button"
-import { Card, CardContent, CardHeader, CardTitle } from "./card"
+import { Button } from "./button";
+import { Card, CardContent, CardHeader, CardTitle } from "./card";
 
 interface ErrorBoundaryState {
-  hasError: boolean
-  error?: Error
-  errorInfo?: React.ErrorInfo
-  copied?: boolean
+  hasError: boolean;
+  error?: Error;
+  errorInfo?: React.ErrorInfo;
+  copied?: boolean;
 }
 
 interface ErrorBoundaryProps {
-  children: React.ReactNode
-  fallback?: React.ReactNode
+  children: React.ReactNode;
+  fallback?: React.ReactNode;
 }
 
-export class ErrorBoundary extends React.Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
+export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
-    super(props)
-    this.state = { hasError: false }
+    super(props);
+    this.state = { hasError: false };
   }
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { hasError: true, error }
+    return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    this.setState({ error, errorInfo, copied: false })
-    console.error("Error caught by boundary:", error, errorInfo)
+    this.setState({ error, errorInfo, copied: false });
+    console.error("Error caught by boundary:", error, errorInfo);
   }
 
   handleReset = () => {
-    this.setState({ hasError: false, error: undefined, errorInfo: undefined })
-  }
+    this.setState({ hasError: false, error: undefined, errorInfo: undefined });
+  };
 
   handleCopy = async () => {
-    const errorText = this.state.error ? String(this.state.error) : "Unknown error"
-    const stack = this.state.error?.stack
-      ? `\n\nStack:\n${this.state.error.stack}`
-      : ""
+    const errorText = this.state.error ? String(this.state.error) : "Unknown error";
+    const stack = this.state.error?.stack ? `\n\nStack:\n${this.state.error.stack}` : "";
     const componentStack = this.state.errorInfo?.componentStack
       ? `\n\nComponent stack:${this.state.errorInfo.componentStack}`
-      : ""
-    const payload = `${errorText}${stack}${componentStack}`
+      : "";
+    const payload = `${errorText}${stack}${componentStack}`;
 
     try {
-      await navigator.clipboard.writeText(payload)
-      this.setState({ copied: true })
+      await navigator.clipboard.writeText(payload);
+      this.setState({ copied: true });
       window.setTimeout(() => {
-        this.setState((prev) => (prev.copied ? { copied: false } : null))
-      }, 1500)
+        this.setState((prev) => (prev.copied ? { copied: false } : null));
+      }, 1500);
     } catch (error) {
-      console.error("Failed to copy error to clipboard:", error)
+      console.error("Failed to copy error to clipboard:", error);
     }
-  }
+  };
 
   render() {
     if (this.state.hasError) {
       if (this.props.fallback) {
-        return this.props.fallback
+        return this.props.fallback;
       }
 
       return (
@@ -94,28 +89,20 @@ export class ErrorBoundary extends React.Component<
               )}
 
               <div className="flex gap-2">
-                <Button
-                  onClick={this.handleReset}
-                  variant="outline"
-                  className="flex-1"
-                >
+                <Button onClick={this.handleReset} variant="outline" className="flex-1">
                   <RotateCcw className="mr-2 h-4 w-4" />
                   Reload
                 </Button>
-                <Button
-                  onClick={this.handleCopy}
-                  variant="outline"
-                  className="flex-1"
-                >
+                <Button onClick={this.handleCopy} variant="outline" className="flex-1">
                   {this.state.copied ? "Copied" : "Copy error"}
                 </Button>
               </div>
             </CardContent>
           </Card>
         </div>
-      )
+      );
     }
 
-    return this.props.children
+    return this.props.children;
   }
 }

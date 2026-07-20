@@ -1,4 +1,4 @@
-import { cva, type VariantProps } from 'class-variance-authority';
+import { cva, type VariantProps } from "class-variance-authority";
 
 /**
  * Single source of truth for every dropdown-style trigger surface in the app:
@@ -15,13 +15,13 @@ import { cva, type VariantProps } from 'class-variance-authority';
  */
 export const dropdownTriggerVariants = cva(
   [
-    'border-input flex items-center justify-between gap-2 rounded-md border bg-transparent',
-    'text-sm whitespace-nowrap shadow-none outline-none text-left',
-    'hover:bg-interactive-hover data-[popup-open]:bg-interactive-active',
-    'focus-visible:outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
-    'disabled:cursor-not-allowed disabled:opacity-50',
+    "border-input flex items-center justify-between gap-2 rounded-md border bg-transparent",
+    "text-sm whitespace-nowrap shadow-none outline-none text-left",
+    "hover:bg-interactive-hover data-[popup-open]:bg-interactive-active",
+    "focus-visible:outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+    "disabled:cursor-not-allowed disabled:opacity-50",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='text-'])]:text-muted-foreground",
-  ].join(' '),
+  ].join(" "),
   {
     variants: {
       size: {
@@ -30,10 +30,10 @@ export const dropdownTriggerVariants = cva(
       },
     },
     defaultVariants: {
-      size: 'default',
+      size: "default",
     },
   },
 );
 
 export type DropdownTriggerVariantProps = VariantProps<typeof dropdownTriggerVariants>;
-export type DropdownTriggerSize = NonNullable<DropdownTriggerVariantProps['size']>;
+export type DropdownTriggerSize = NonNullable<DropdownTriggerVariantProps["size"]>;

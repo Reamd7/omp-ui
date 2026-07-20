@@ -1,6 +1,6 @@
-import * as React from 'react'
-import type { Meta, StoryObj } from '@storybook/react'
-import { Copy, Folder, Trash } from 'lucide-react'
+import * as React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { Copy, Folder, Trash } from "lucide-react";
 
 import {
   ContextMenu,
@@ -8,29 +8,27 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
-} from './context-menu'
+} from "./context-menu";
 
 const meta: Meta<typeof ContextMenu> = {
-  title: 'UI/ContextMenu',
+  title: "UI/ContextMenu",
   component: ContextMenu,
-  tags: ['autodocs'],
-  parameters: { layout: 'centered' },
-}
+  tags: ["autodocs"],
+  parameters: { layout: "centered" },
+};
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof ContextMenu>
+type Story = StoryObj<typeof ContextMenu>;
 
 const triggerSurfaceClass =
-  "flex h-40 w-80 items-center justify-center rounded-lg border border-border bg-background text-sm text-muted-foreground select-none"
+  "flex h-40 w-80 items-center justify-center rounded-lg border border-border bg-background text-sm text-muted-foreground select-none";
 
 /** Right-click anywhere on the surface to open the menu. */
 function BasicDemo() {
   return (
     <ContextMenu>
-      <ContextMenuTrigger className={triggerSurfaceClass}>
-        Right-click here
-      </ContextMenuTrigger>
+      <ContextMenuTrigger className={triggerSurfaceClass}>Right-click here</ContextMenuTrigger>
       <ContextMenuContent>
         <ContextMenuItem>
           <Copy />
@@ -47,7 +45,7 @@ function BasicDemo() {
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
-  )
+  );
 }
 
 /** Menu with multiple separators and grouped sections. */
@@ -73,23 +71,23 @@ function NestedDemo() {
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
-  )
+  );
 }
 
 export const Basic: Story = {
   render: () => <BasicDemo />,
-}
+};
 
 export const Nested: Story = {
   render: () => <NestedDemo />,
-}
+};
 
 /** Aggregated view of the basic and nested variants. */
 export const AllVariants: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+    <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
       <BasicDemo />
       <NestedDemo />
     </div>
   ),
-}
+};

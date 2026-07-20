@@ -9,16 +9,24 @@
   },
   "scripts": {
     "install:all": "pnpm install --recursive",
-    "clean": "pnpm -r exec rimraf dist node_modules || true",
+    "clean": "node --experimental-strip-types -e \"import{rm}from'node:fs/promises';for(const p of ['components/dist','components/node_modules']){await rm(p,{recursive:true,force:true})}\"",
     "prepare": "lefthook install",
     "typecheck": "pnpm -r run typecheck",
+    "lint": "oxlint components/",
+    "lint:fix": "oxlint --fix components/",
+    "format": "oxfmt --write components/",
+    "format:check": "oxfmt --check components/",
+    "knip": "knip",
     "check:storybook-runtime": "node scripts/check-swc-runtime.mjs",
     "check:no-typography": "node scripts/check-no-typography.mjs",
-    "check:ui-purity": "node scripts/check-ui-purity.mjs",
-    "lint": "pnpm run check:storybook-runtime && pnpm run check:no-typography && pnpm run check:ui-purity"
+    "check:ui-purity": "node scripts/check-ui-purity.mjs"
   },
-
   "devDependencies": {
-    "@evilmartians/lefthook": "^2.0.11"
+    "@commitlint/cli": "^21.2.1",
+    "@commitlint/config-conventional": "^21.2.0",
+    "@evilmartians/lefthook": "^2.0.11",
+    "knip": "^6.27.0",
+    "oxfmt": "^0.59.0",
+    "oxlint": "^1.74.0"
   }
 }

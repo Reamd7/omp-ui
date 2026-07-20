@@ -1,8 +1,8 @@
-import * as React from "react"
-import { Dialog as BaseDialog } from "@base-ui/react/dialog"
-import { X } from "lucide-react"
+import * as React from "react";
+import { Dialog as BaseDialog } from "@base-ui/react/dialog";
+import { X } from "lucide-react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 let openDialogCount = 0;
 
@@ -19,10 +19,8 @@ function renderFromAsChild(asChild: boolean | undefined, children: React.ReactNo
   return { children };
 }
 
-function Dialog({
-  ...props
-}: React.ComponentProps<typeof BaseDialog.Root>) {
-  return <BaseDialog.Root {...props} />
+function Dialog({ ...props }: React.ComponentProps<typeof BaseDialog.Root>) {
+  return <BaseDialog.Root {...props} />;
 }
 
 function DialogTrigger({
@@ -31,13 +29,11 @@ function DialogTrigger({
   ...props
 }: React.ComponentProps<typeof BaseDialog.Trigger> & AsChildProps) {
   const r = renderFromAsChild(asChild, children);
-  return <BaseDialog.Trigger data-slot="dialog-trigger" {...props} {...r} />
+  return <BaseDialog.Trigger data-slot="dialog-trigger" {...props} {...r} />;
 }
 
-function DialogPortal({
-  ...props
-}: React.ComponentProps<typeof BaseDialog.Portal>) {
-  return <BaseDialog.Portal {...props} />
+function DialogPortal({ ...props }: React.ComponentProps<typeof BaseDialog.Portal>) {
+  return <BaseDialog.Portal {...props} />;
 }
 
 const DialogOverlay = React.forwardRef<
@@ -46,11 +42,11 @@ const DialogOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => {
   React.useEffect(() => {
     openDialogCount += 1;
-    document.documentElement.classList.add('oc-dialog-open');
+    document.documentElement.classList.add("oc-dialog-open");
     return () => {
       openDialogCount = Math.max(0, openDialogCount - 1);
       if (openDialogCount === 0) {
-        document.documentElement.classList.remove('oc-dialog-open');
+        document.documentElement.classList.remove("oc-dialog-open");
       }
     };
   }, []);
@@ -63,18 +59,18 @@ const DialogOverlay = React.forwardRef<
         "fixed inset-0 z-50 bg-black/50 dark:bg-black/75",
         "transition-opacity duration-150 ease-out",
         "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0",
-        className
+        className,
       )}
       {...props}
     />
-  )
+  );
 });
 DialogOverlay.displayName = "DialogOverlay";
 
 type DialogContentProps = Omit<React.ComponentProps<typeof BaseDialog.Popup>, "children"> & {
-  showCloseButton?: boolean
-  children?: React.ReactNode
-}
+  showCloseButton?: boolean;
+  children?: React.ReactNode;
+};
 
 function DialogContent({
   className,
@@ -100,24 +96,24 @@ function DialogContent({
             // whole popup uniformly — including scrolled content — and animates
             // via the existing transition-all.
             "data-[nested-dialog-open]:brightness-[0.55] dark:data-[nested-dialog-open]:brightness-[0.4]",
-            className
+            className,
           )}
           {...props}
         >
-        {children}
-        {showCloseButton && (
-          <BaseDialog.Close
-            data-slot="dialog-close"
-            className="ring-offset-background focus:ring-ring data-[open]:bg-interactive-active data-[open]:text-foreground absolute top-2 right-2 rounded-lg opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none text-muted-foreground hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
-          >
-            <X />
-            <span className="sr-only">Close</span>
-          </BaseDialog.Close>
-        )}
+          {children}
+          {showCloseButton && (
+            <BaseDialog.Close
+              data-slot="dialog-close"
+              className="ring-offset-background focus:ring-ring data-[open]:bg-interactive-active data-[open]:text-foreground absolute top-2 right-2 rounded-lg opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none text-muted-foreground hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+            >
+              <X />
+              <span className="sr-only">Close</span>
+            </BaseDialog.Close>
+          )}
         </BaseDialog.Popup>
       </div>
     </DialogPortal>
-  )
+  );
 }
 
 function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
@@ -127,7 +123,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
       className={cn("flex flex-col gap-2 text-center sm:text-left", className)}
       {...props}
     />
-  )
+  );
 }
 
 function DialogFooter({ className, ...props }: React.ComponentProps<"div">) {
@@ -136,24 +132,21 @@ function DialogFooter({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="dialog-footer"
       className={cn(
         "flex flex-col-reverse gap-2 bottom-safe-area sm:flex-row sm:justify-end",
-        className
+        className,
       )}
       {...props}
     />
-  )
+  );
 }
 
-function DialogTitle({
-  className,
-  ...props
-}: React.ComponentProps<typeof BaseDialog.Title>) {
+function DialogTitle({ className, ...props }: React.ComponentProps<typeof BaseDialog.Title>) {
   return (
     <BaseDialog.Title
       data-slot="dialog-title"
       className={cn("text-base leading-none font-semibold text-foreground", className)}
       {...props}
     />
-  )
+  );
 }
 
 function DialogDescription({
@@ -166,7 +159,7 @@ function DialogDescription({
       className={cn("text-muted-foreground text-sm", className)}
       {...props}
     />
-  )
+  );
 }
 
 export {
@@ -177,4 +170,4 @@ export {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-}
+};

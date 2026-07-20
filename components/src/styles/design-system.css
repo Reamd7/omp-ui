@@ -12,13 +12,13 @@
     color-scheme: light;
 
     /* —— 默认 Light Theme —— */
-    --background: oklch(0.97 0.02 85);             /* Warm sand background */
-    --foreground: oklch(0.25 0.02 40);             /* Dark warm text */
-    --card: oklch(0.99 0.01 90);                   /* Bright sand card */
+    --background: oklch(0.97 0.02 85); /* Warm sand background */
+    --foreground: oklch(0.25 0.02 40); /* Dark warm text */
+    --card: oklch(0.99 0.01 90); /* Bright sand card */
     --card-foreground: oklch(0.25 0.02 40);
     --popover: oklch(0.99 0.01 90);
     --popover-foreground: oklch(0.25 0.02 40);
-    --primary: oklch(0.65 0.2 55);                 /* Primary accent — orange */
+    --primary: oklch(0.65 0.2 55); /* Primary accent — orange */
     --primary-foreground: oklch(0.99 0.01 90);
     --secondary: oklch(0.92 0.02 80);
     --secondary-foreground: oklch(0.25 0.02 40);
@@ -26,29 +26,29 @@
     --muted-foreground: oklch(0.45 0.02 50);
     --accent: oklch(0.92 0.02 80);
     --accent-foreground: oklch(0.25 0.02 40);
-    --destructive: oklch(0.55 0.25 25);            /* Warm red */
+    --destructive: oklch(0.55 0.25 25); /* Warm red */
     --destructive-foreground: oklch(0.99 0.01 90);
     --border: oklch(0.85 0.02 70);
     --input: oklch(0.88 0.02 75);
     --ring: oklch(0.65 0.2 55);
 
-    --radius: 0.5625rem;                           /* 9px */
+    --radius: 0.5625rem; /* 9px */
 
     /* 图表色板 */
-    --chart-1: oklch(0.58 0.15 230);               /* Blue */
-    --chart-2: oklch(0.58 0.15 145);               /* Oasis green */
-    --chart-3: oklch(0.65 0.2 55);                 /* Orange */
-    --chart-4: oklch(0.55 0.18 30);                /* Rose */
-    --chart-5: oklch(0.6 0.16 85);                 /* Golden sand */
+    --chart-1: oklch(0.58 0.15 230); /* Blue */
+    --chart-2: oklch(0.58 0.15 145); /* Oasis green */
+    --chart-3: oklch(0.65 0.2 55); /* Orange */
+    --chart-4: oklch(0.55 0.18 30); /* Rose */
+    --chart-5: oklch(0.6 0.16 85); /* Golden sand */
 
     /* —— openchamber-compat 扩展令牌（迁移自 openchamber/ui 的组件依赖）—— */
-    --primary-base: var(--primary);                /* 主色"基底"（用于 color-mix 着色） */
-    --status-error: var(--destructive);            /* 错误状态色（destructive 别名） */
-    --status-success: oklch(0.62 0.16 145);        /* 成功状态色 */
-    --status-warning: oklch(0.72 0.16 70);         /* 警告状态色 */
-    --status-info: oklch(0.62 0.14 240);           /* 信息状态色 */
-    --surface-elevated: var(--card);               /* 凸起表面（卡片/输入框背景） */
-    --surface-subtle: var(--muted);                /* 微弱表面（hover 背景） */
+    --primary-base: var(--primary); /* 主色"基底"（用于 color-mix 着色） */
+    --status-error: var(--destructive); /* 错误状态色（destructive 别名） */
+    --status-success: oklch(0.62 0.16 145); /* 成功状态色 */
+    --status-warning: oklch(0.72 0.16 70); /* 警告状态色 */
+    --status-info: oklch(0.62 0.14 240); /* 信息状态色 */
+    --surface-elevated: var(--card); /* 凸起表面（卡片/输入框背景） */
+    --surface-subtle: var(--muted); /* 微弱表面（hover 背景） */
     --interactive-hover: color-mix(in srgb, var(--primary) 8%, transparent);
     --interactive-active: color-mix(in srgb, var(--primary) 14%, transparent);
     --interactive-selection: var(--primary);
@@ -62,13 +62,13 @@
     color-scheme: dark;
 
     /* —— 默认 Dark Theme —— */
-    --background: oklch(0.16 0.01 30);             /* #151313 */
-    --foreground: oklch(0.85 0.02 90);             /* #cdccc3 */
+    --background: oklch(0.16 0.01 30); /* #151313 */
+    --foreground: oklch(0.85 0.02 90); /* #cdccc3 */
     --card: oklch(0.19 0.01 40);
     --card-foreground: oklch(0.85 0.02 90);
     --popover: oklch(0.24 0.01 40);
     --popover-foreground: oklch(0.85 0.02 90);
-    --primary: oklch(0.77 0.17 85);                /* #edb449 — golden sand */
+    --primary: oklch(0.77 0.17 85); /* #edb449 — golden sand */
     --primary-foreground: oklch(0.16 0.01 30);
     --secondary: oklch(0.29 0.01 40);
     --secondary-foreground: oklch(0.85 0.02 90);
@@ -76,7 +76,7 @@
     --muted-foreground: oklch(0.75 0.02 80);
     --accent: oklch(0.29 0.01 40);
     --accent-foreground: oklch(0.85 0.02 90);
-    --destructive: oklch(0.65 0.15 30);            /* #d98678 */
+    --destructive: oklch(0.65 0.15 30); /* #d98678 */
     --destructive-foreground: oklch(0.9 0.02 80);
     --border: oklch(0.31 0.01 35);
     --input: oklch(0.33 0.01 40);
@@ -107,10 +107,10 @@
 @theme inline {
   /* radius scale */
   --radius-none: 0;
-  --radius-sm: 0.25rem;        /* 4px */
-  --radius-md: 0.4375rem;      /* 7px */
-  --radius-lg: var(--radius);  /* 9px — 与 :root 中的 --radius 联动 */
-  --radius-xl: 0.75rem;        /* 12px */
+  --radius-sm: 0.25rem; /* 4px */
+  --radius-md: 0.4375rem; /* 7px */
+  --radius-lg: var(--radius); /* 9px — 与 :root 中的 --radius 联动 */
+  --radius-xl: 0.75rem; /* 12px */
   --radius-full: 9999px;
 
   /* 颜色映射 → 生成 bg-background / text-foreground / bg-primary / ... */

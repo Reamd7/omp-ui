@@ -1,7 +1,7 @@
-import * as React from "react"
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
-import { ScrollableOverlay } from "./ScrollableOverlay"
+import { cn } from "@/lib/utils";
+import { ScrollableOverlay } from "./ScrollableOverlay";
 
 type TextareaProps = React.ComponentProps<"textarea"> & {
   outerClassName?: string;
@@ -83,44 +83,47 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     const [resizedHeight, setResizedHeight] = React.useState<number | null>(null);
     const effectiveResizedHeight = controlledResizedHeight ?? resizedHeight;
 
-    const handleResizeStart = React.useCallback((event: React.PointerEvent<HTMLDivElement>) => {
-      const wrapper = wrapperRef.current;
-      if (!wrapper) return;
-      dragStateRef.current = {
-        startY: event.clientY,
-        startHeight: wrapper.getBoundingClientRect().height,
-      };
-      const target = event.currentTarget;
-      target.setPointerCapture(event.pointerId);
+    const handleResizeStart = React.useCallback(
+      (event: React.PointerEvent<HTMLDivElement>) => {
+        const wrapper = wrapperRef.current;
+        if (!wrapper) return;
+        dragStateRef.current = {
+          startY: event.clientY,
+          startHeight: wrapper.getBoundingClientRect().height,
+        };
+        const target = event.currentTarget;
+        target.setPointerCapture(event.pointerId);
 
-      const onMove = (moveEvent: PointerEvent) => {
-        const state = dragStateRef.current;
-        if (!state) return;
-        const next = state.startHeight + (moveEvent.clientY - state.startY);
-        const nextHeight = Math.max(82, next);
-        if (onResizeHeightChange) {
-          onResizeHeightChange(nextHeight);
-        } else {
-          setResizedHeight(nextHeight);
-        }
-      };
-      const onUp = () => {
-        dragStateRef.current = null;
-        target.removeEventListener('pointermove', onMove);
-        target.removeEventListener('pointerup', onUp);
-        target.removeEventListener('pointercancel', onUp);
-      };
-      target.addEventListener('pointermove', onMove);
-      target.addEventListener('pointerup', onUp);
-      target.addEventListener('pointercancel', onUp);
-      event.preventDefault();
-    }, [onResizeHeightChange]);
+        const onMove = (moveEvent: PointerEvent) => {
+          const state = dragStateRef.current;
+          if (!state) return;
+          const next = state.startHeight + (moveEvent.clientY - state.startY);
+          const nextHeight = Math.max(82, next);
+          if (onResizeHeightChange) {
+            onResizeHeightChange(nextHeight);
+          } else {
+            setResizedHeight(nextHeight);
+          }
+        };
+        const onUp = () => {
+          dragStateRef.current = null;
+          target.removeEventListener("pointermove", onMove);
+          target.removeEventListener("pointerup", onUp);
+          target.removeEventListener("pointercancel", onUp);
+        };
+        target.addEventListener("pointermove", onMove);
+        target.addEventListener("pointerup", onUp);
+        target.addEventListener("pointercancel", onUp);
+        event.preventDefault();
+      },
+      [onResizeHeightChange],
+    );
 
     const focusInnerTextarea = React.useCallback((event: React.PointerEvent<HTMLDivElement>) => {
       // Clicking the wrapper chrome (below/around the textarea) should focus it.
       const target = event.target as HTMLElement;
       if (target.closest('textarea, button, [role="separator"]')) return;
-      const textarea = wrapperRef.current?.querySelector('textarea');
+      const textarea = wrapperRef.current?.querySelector("textarea");
       if (textarea && document.activeElement !== textarea) {
         event.preventDefault();
         textarea.focus();
@@ -160,7 +163,9 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       <div
         ref={wrapperRef}
         onPointerDown={focusInnerTextarea}
-        style={effectiveResizedHeight !== null ? { height: `${effectiveResizedHeight}px` } : undefined}
+        style={
+          effectiveResizedHeight !== null ? { height: `${effectiveResizedHeight}px` } : undefined
+        }
         className={cn(
           "group/textarea relative flex w-full flex-col rounded-[var(--radius-xl)] bg-[var(--surface-elevated)] pb-2.5",
           "ring-1 ring-inset ring-border/60 transition duration-200 ease-out",
@@ -179,36 +184,36 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       >
         <div className="flex h-full min-h-0 flex-1 flex-col gap-2">
           <textarea
-              ref={ref}
-              className={cn(
-                "block w-full flex-1 min-h-0 appearance-none resize-none bg-transparent text-foreground text-sm outline-none",
-                "min-h-[82px] pl-3 pr-2.5 pt-2.5 md:text-sm",
-                "focus-visible:outline-none disabled:cursor-not-allowed",
-                !disabled && [
-                  "placeholder:select-none placeholder:text-muted-foreground placeholder:transition placeholder:duration-200 placeholder:ease-out",
-                  "group-hover/textarea:placeholder:text-foreground/80",
-                  "focus:placeholder:text-foreground/80",
-                ],
-                disabled && "text-muted-foreground/60 placeholder:text-muted-foreground/60",
-                className,
-              )}
-              spellCheck={false}
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              disabled={disabled}
-              {...props}
-            />
+            ref={ref}
+            className={cn(
+              "block w-full flex-1 min-h-0 appearance-none resize-none bg-transparent text-foreground text-sm outline-none",
+              "min-h-[82px] pl-3 pr-2.5 pt-2.5 md:text-sm",
+              "focus-visible:outline-none disabled:cursor-not-allowed",
+              !disabled && [
+                "placeholder:select-none placeholder:text-muted-foreground placeholder:transition placeholder:duration-200 placeholder:ease-out",
+                "group-hover/textarea:placeholder:text-foreground/80",
+                "focus:placeholder:text-foreground/80",
+              ],
+              disabled && "text-muted-foreground/60 placeholder:text-muted-foreground/60",
+              className,
+            )}
+            spellCheck={false}
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            disabled={disabled}
+            {...props}
+          />
           <div className="flex items-center justify-end gap-1.5 pl-3 pr-2.5">
             {endSlot}
             <ResizeHandle onResizeStart={handleResizeStart} ariaLabel="Resize textarea" />
           </div>
         </div>
       </div>
-    )
-  }
-)
+    );
+  },
+);
 
-Textarea.displayName = "Textarea"
+Textarea.displayName = "Textarea";
 
-export { Textarea }
+export { Textarea };

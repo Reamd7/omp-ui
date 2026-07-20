@@ -1,22 +1,22 @@
-import { useState } from 'react'
-import type { Meta, StoryObj } from '@storybook/react'
+import { useState } from "react";
+import type { Meta, StoryObj } from "@storybook/react";
 
-import { Checkbox } from './checkbox'
+import { Checkbox } from "./checkbox";
 
 const meta: Meta<typeof Checkbox> = {
-  title: 'UI/Checkbox',
+  title: "UI/Checkbox",
   component: Checkbox,
-  tags: ['autodocs'],
-  parameters: { layout: 'centered' },
+  tags: ["autodocs"],
+  parameters: { layout: "centered" },
   argTypes: {
-    checked: { control: 'boolean' },
-    disabled: { control: 'boolean' },
-    indeterminate: { control: 'boolean' },
+    checked: { control: "boolean" },
+    disabled: { control: "boolean" },
+    indeterminate: { control: "boolean" },
   },
-}
-export default meta
+};
+export default meta;
 
-type Story = StoryObj<typeof Checkbox>
+type Story = StoryObj<typeof Checkbox>;
 
 /** Stateful wrapper so the checkbox is interactive in Storybook. */
 function Interactive({
@@ -25,16 +25,16 @@ function Interactive({
   disabled = false,
   label,
 }: {
-  initial?: boolean
-  indeterminate?: boolean
-  disabled?: boolean
-  label?: string
+  initial?: boolean;
+  indeterminate?: boolean;
+  disabled?: boolean;
+  label?: string;
 }) {
-  const [checked, setChecked] = useState(initial)
+  const [checked, setChecked] = useState(initial);
   return (
     <label
       className="flex items-center gap-2 text-sm text-foreground"
-      style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
+      style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}
     >
       <Checkbox
         checked={checked}
@@ -45,7 +45,7 @@ function Interactive({
       />
       {label && <span>{label}</span>}
     </label>
-  )
+  );
 }
 
 export const Unchecked: Story = {
@@ -54,7 +54,7 @@ export const Unchecked: Story = {
       <Interactive initial={false} label="Unchecked" />
     </div>
   ),
-}
+};
 
 export const Checked: Story = {
   render: () => (
@@ -62,7 +62,7 @@ export const Checked: Story = {
       <Interactive initial={true} label="Checked" />
     </div>
   ),
-}
+};
 
 export const Indeterminate: Story = {
   render: () => (
@@ -70,20 +70,20 @@ export const Indeterminate: Story = {
       <Interactive indeterminate label="Indeterminate" />
     </div>
   ),
-}
+};
 
 export const Disabled: Story = {
   render: () => (
     <div
       className="flex flex-col gap-3 rounded-lg border border-border bg-background p-6"
-      style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}
+      style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}
     >
       <Interactive initial={false} disabled label="Disabled (unchecked)" />
       <Interactive initial={true} disabled label="Disabled (checked)" />
       <Interactive indeterminate disabled label="Disabled (indeterminate)" />
     </div>
   ),
-}
+};
 
 export const WithLabel: Story = {
   render: () => (
@@ -91,13 +91,13 @@ export const WithLabel: Story = {
       <Interactive initial={true} label="Subscribe to updates" />
     </div>
   ),
-}
+};
 
 export const AllStates: Story = {
   render: () => (
     <div
       className="flex flex-col gap-3 rounded-lg border border-border bg-background p-6"
-      style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}
+      style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}
     >
       <Interactive initial={false} label="Unchecked" />
       <Interactive initial={true} label="Checked" />
@@ -105,4 +105,4 @@ export const AllStates: Story = {
       <Interactive initial={false} disabled label="Disabled" />
     </div>
   ),
-}
+};

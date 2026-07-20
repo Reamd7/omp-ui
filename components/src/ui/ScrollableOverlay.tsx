@@ -22,24 +22,27 @@ type ScrollableOverlayProps = React.HTMLAttributes<HTMLElement> & {
 };
 
 export const ScrollableOverlay = React.forwardRef<HTMLElement, ScrollableOverlayProps>(
-  ({
-    className,
-    outerClassName,
-    children,
-    style,
-    minThumbSize,
-    hideDelayMs,
-    as: Component = "div",
-    scrollbarClassName,
-    disableHorizontal = false,
-    observeMutations = true,
-    fillContainer = true,
-    preventOverscroll = false,
-    useScrollShadow = false,
-    scrollShadowSize,
-    userIntentOnly = false,
-    ...rest
-  }, ref) => {
+  (
+    {
+      className,
+      outerClassName,
+      children,
+      style,
+      minThumbSize,
+      hideDelayMs,
+      as: Component = "div",
+      scrollbarClassName,
+      disableHorizontal = false,
+      observeMutations = true,
+      fillContainer = true,
+      preventOverscroll = false,
+      useScrollShadow = false,
+      scrollShadowSize,
+      userIntentOnly = false,
+      ...rest
+    },
+    ref,
+  ) => {
     const containerRef = React.useRef<HTMLElement | null>(null);
 
     React.useImperativeHandle(ref, () => containerRef.current as HTMLElement, []);
@@ -49,7 +52,7 @@ export const ScrollableOverlay = React.forwardRef<HTMLElement, ScrollableOverlay
         className={cn(
           "relative flex flex-col min-h-0 w-full overflow-hidden",
           preventOverscroll && "overscroll-none",
-          outerClassName
+          outerClassName,
         )}
       >
         {useScrollShadow ? (
@@ -62,7 +65,7 @@ export const ScrollableOverlay = React.forwardRef<HTMLElement, ScrollableOverlay
               preventOverscroll && "overscroll-none",
               fillContainer ? "flex-1 min-h-0 w-full" : "flex-none w-full h-auto",
               disableHorizontal ? "overflow-y-auto overflow-x-hidden" : "overflow-auto",
-              className
+              className,
             )}
             style={style as React.CSSProperties}
             observeMutations={observeMutations}
@@ -78,7 +81,7 @@ export const ScrollableOverlay = React.forwardRef<HTMLElement, ScrollableOverlay
               preventOverscroll && "overscroll-none",
               fillContainer ? "flex-1 min-h-0 w-full" : "flex-none w-full h-auto",
               disableHorizontal ? "overflow-y-auto overflow-x-hidden" : "overflow-auto",
-              className
+              className,
             )}
             style={style}
             {...rest}
@@ -97,7 +100,7 @@ export const ScrollableOverlay = React.forwardRef<HTMLElement, ScrollableOverlay
         />
       </div>
     );
-  }
+  },
 );
 
 ScrollableOverlay.displayName = "ScrollableOverlay";

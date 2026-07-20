@@ -1,43 +1,38 @@
-import { useState } from 'react'
-import type { Meta, StoryObj } from '@storybook/react'
-import { Info } from 'lucide-react'
+import { useState } from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { Info } from "lucide-react";
 
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TooltipProvider,
-} from './tooltip'
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "./tooltip";
 
 const meta: Meta<typeof Tooltip> = {
-  title: 'UI/Tooltip',
+  title: "UI/Tooltip",
   component: Tooltip,
-  tags: ['autodocs'],
-  parameters: { layout: 'centered' },
-}
-export default meta
+  tags: ["autodocs"],
+  parameters: { layout: "centered" },
+};
+export default meta;
 
-type Story = StoryObj<typeof Tooltip>
+type Story = StoryObj<typeof Tooltip>;
 
 function TooltipBox({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-32 w-72 items-center justify-center rounded-lg border border-border bg-background p-6 text-foreground">
       {children}
     </div>
-  )
+  );
 }
 
 /** Hover the trigger to reveal — uses a controlled inner state for demo clarity. */
 function StatefulTooltip({
-  content = 'I am a tooltip',
-  side = 'top',
+  content = "I am a tooltip",
+  side = "top",
   sideOffset,
   align,
 }: {
-  content?: React.ReactNode
-  side?: 'top' | 'right' | 'bottom' | 'left'
-  sideOffset?: number
-  align?: 'start' | 'center' | 'end'
+  content?: React.ReactNode;
+  side?: "top" | "right" | "bottom" | "left";
+  sideOffset?: number;
+  align?: "start" | "center" | "end";
 }) {
   return (
     <TooltipProvider>
@@ -54,7 +49,7 @@ function StatefulTooltip({
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
-  )
+  );
 }
 
 export const Default: Story = {
@@ -63,7 +58,7 @@ export const Default: Story = {
       <StatefulTooltip />
     </TooltipBox>
   ),
-}
+};
 
 /** 默认就带 arrow（base-ui Tooltip.Arrow 已内置）；这里显式标出。 */
 export const WithArrow: Story = {
@@ -72,7 +67,7 @@ export const WithArrow: Story = {
       <StatefulTooltip content="Tooltip with an arrow ▲" side="bottom" />
     </TooltipBox>
   ),
-}
+};
 
 export const SideTop: Story = {
   render: () => (
@@ -80,7 +75,7 @@ export const SideTop: Story = {
       <StatefulTooltip side="top" />
     </TooltipBox>
   ),
-}
+};
 
 export const SideRight: Story = {
   render: () => (
@@ -88,7 +83,7 @@ export const SideRight: Story = {
       <StatefulTooltip side="right" />
     </TooltipBox>
   ),
-}
+};
 
 export const SideBottom: Story = {
   render: () => (
@@ -96,7 +91,7 @@ export const SideBottom: Story = {
       <StatefulTooltip side="bottom" />
     </TooltipBox>
   ),
-}
+};
 
 export const SideLeft: Story = {
   render: () => (
@@ -104,12 +99,12 @@ export const SideLeft: Story = {
       <StatefulTooltip side="left" />
     </TooltipBox>
   ),
-}
+};
 
 export const DifferentSides: Story = {
   render: () => (
     <TooltipBox>
-      <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+      <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
         <StatefulTooltip side="top" content="Top" />
         <StatefulTooltip side="right" content="Right" />
         <StatefulTooltip side="bottom" content="Bottom" />
@@ -117,7 +112,7 @@ export const DifferentSides: Story = {
       </div>
     </TooltipBox>
   ),
-}
+};
 
 /** 自定义 trigger — 这里用 lucide-react 的 Info 图标按钮。 */
 export const CustomTrigger: Story = {
@@ -142,13 +137,13 @@ export const CustomTrigger: Story = {
       </TooltipProvider>
     </TooltipBox>
   ),
-}
+};
 
 /** Controlled (open state externalized) example with a click toggle. */
 export const Controlled: Story = {
   render: () => {
     function Controlled() {
-      const [open, setOpen] = useState(false)
+      const [open, setOpen] = useState(false);
       return (
         <TooltipBox>
           <TooltipProvider>
@@ -156,7 +151,7 @@ export const Controlled: Story = {
               <TooltipTrigger
                 render={
                   <button className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground">
-                    {open ? 'Close' : 'Open'}
+                    {open ? "Close" : "Open"}
                   </button>
                 }
               />
@@ -164,8 +159,8 @@ export const Controlled: Story = {
             </Tooltip>
           </TooltipProvider>
         </TooltipBox>
-      )
+      );
     }
-    return <Controlled />
+    return <Controlled />;
   },
-}
+};

@@ -6,16 +6,16 @@ Developed in isolation with **Storybook v10 + Rsbuild** (React). Styling: **Tail
 
 ## Stack
 
-| | |
-|---|---|
-| Framework | React 19 |
+|                          |                                                                                             |
+| ------------------------ | ------------------------------------------------------------------------------------------- |
+| Framework                | React 19                                                                                    |
 | Build engine (Storybook) | [Rsbuild](https://rsbuild.rs) via [`storybook-react-rsbuild`](https://storybook.rsbuild.rs) |
-| Styling | Tailwind v4 + `cva` + `cn()` — see [`docs/styling.md`](../docs/styling.md) |
-| Headless primitives | [`@base-ui/react`](https://base-ui.com) (Dialog / Menu / Select / Tooltip / Switch / ...) |
-| Icons | [`lucide-react`](https://lucide.dev) |
-| Toasts | [`sonner`](https://sonner.emilkowal.ski) |
-| Language | TypeScript (`strict`, `react-jsx`) |
-| Toolchain pin | `node 26.5.0` + `pnpm 11.15.0` (see root `.mise.toml`) |
+| Styling                  | Tailwind v4 + `cva` + `cn()` — see [`docs/styling.md`](../docs/styling.md)                  |
+| Headless primitives      | [`@base-ui/react`](https://base-ui.com) (Dialog / Menu / Select / Tooltip / Switch / ...)   |
+| Icons                    | [`lucide-react`](https://lucide.dev)                                                        |
+| Toasts                   | [`sonner`](https://sonner.emilkowal.ski)                                                    |
+| Language                 | TypeScript (`strict`, `react-jsx`)                                                          |
+| Toolchain pin            | `node 26.5.0` + `pnpm 11.15.0` (see root `.mise.toml`)                                      |
 
 ## Scripts
 
@@ -65,13 +65,13 @@ Strict boundary: **only shadcn-style primitives and generic utilities live here.
 
 Current set (23 components, 19 stories):
 
-| Group | Components |
-|---|---|
-| Form | `Button`, `Input`, `Textarea`, `NumberInput`, `Checkbox`, `Radio`, `Switch` |
-| Overlay | `Dialog`, `DropdownMenu`, `ContextMenu`, `Select`, `Tooltip`, `Command` |
-| Disclosure | `Collapsible` |
-| Feedback | `Skeleton`, `Text`, `Sonner` (toaster), `toast` (helper), `ErrorBoundary` |
-| Utilities | `Slot`, `ScrollShadow`, `OverlayScrollbar`, `ScrollableOverlay`, `Card` |
+| Group      | Components                                                                  |
+| ---------- | --------------------------------------------------------------------------- |
+| Form       | `Button`, `Input`, `Textarea`, `NumberInput`, `Checkbox`, `Radio`, `Switch` |
+| Overlay    | `Dialog`, `DropdownMenu`, `ContextMenu`, `Select`, `Tooltip`, `Command`     |
+| Disclosure | `Collapsible`                                                               |
+| Feedback   | `Skeleton`, `Text`, `Sonner` (toaster), `toast` (helper), `ErrorBoundary`   |
+| Utilities  | `Slot`, `ScrollShadow`, `OverlayScrollbar`, `ScrollableOverlay`, `Card`     |
 
 ## Conventions
 
