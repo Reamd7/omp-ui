@@ -177,7 +177,7 @@ export const SidebarLayout: Story = {
 
     return (
       <div className="flex h-[640px] w-full overflow-hidden rounded-md border border-border bg-background">
-        <div className="flex h-full min-h-0">
+        <div className="flex h-full min-h-0 w-full">
           {/* 外层 sidebar 容器（仿 PluginsPage 提供的 w-280 border-r 外壳） */}
           <aside
             className="flex h-full flex-col border-r border-border bg-muted"
