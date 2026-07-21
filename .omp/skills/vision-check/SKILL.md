@@ -100,6 +100,8 @@ const h = await agent(prompt, { agent: "vision", handle: true, model: "mimo-v2.5
 
 ## Failure modes and recovery
 
+### Runtime / plumbing failures
+
 | Symptom | Likely cause | Fix |
 |---|---|---|
 | `400 Upstream request failed` | axonhub can't route model in openai format | Override with `model: "mimo-v2.5"` |
@@ -108,11 +110,54 @@ const h = await agent(prompt, { agent: "vision", handle: true, model: "mimo-v2.5
 | Subagent returns text but no image analysis | `read` tool wasn't called or image decode failed | Verify `tab.screenshot` returned a non-empty `dest` and the file exists |
 | JSON parse fails on `h.output` | Model returned prose instead of JSON | Re-run; the agent's output schema should enforce JSON |
 
-## Cost / latency budget
+### Vision reliability — when to trust, when to verify
 
-- Each invocation: ~10-30 s wall time (subagent spawn + image read + model inference)
-- Token cost: ~1-2k input tokens (image) + ~200-500 output tokens per check
-- Recommended cap: **at most 3 vision checks per UI change cycle** (initial verify + fix verify + final verify). More than that means you're flailing — switch to manual DOM inspection via `tab.evaluate`.
+`minimax-m3` is reliable for **visual impression** but unreliable for **precise pixel claims**. Two operational rules:
+
+| Mode | Reliability | Use for | Don't use for |
+|---|---|---|---|
+| **Single-image description** ("describe what you see") | ✅ High | layout balance, centering feel, color tone, presence/absence of elements, identifying obvious artifacts | — |
+| **Comparison mode** ("compare A vs B, give pixel gaps") | ⚠️ Low for numbers | structural diff (element present in A not B), qualitative drift ("airier", "tighter") | exact pixel values, exact offsets, exact widths |
+
+Observed failure patterns in comparison mode (real examples from this project):
+
+- Hallucinated `right panel 420px` when DOM-measured 998px (off by 2.4x)
+- Hallucinated `empty-state 35px off-center` when DOM-measured 0px (perfectly centered)
+- Attributed screenshot B's `SettingsView nav` (a left column) to screenshot A (which has no such element)
+- Claimed `dark band on far right` that doesn't exist in single-image re-check
+
+### Mandatory DOM cross-check rule
+
+**Any time the vision agent reports a precise pixel value, offset, or width, verify it with `tab.evaluate` before acting on it.** Vision models estimate geometry from rendered pixels; small icons, flex containers, and percentage-based layouts routinely produce 2-5x measurement errors.
+
+Cross-check template:
+
+```js
+// vision claimed "X is 420px wide / 35px off-center"
+await tab.evaluate(() => {
+  const el = document.querySelector('<selector>');
+  const parent = el.closest('<parent-selector>');
+  const elRect = el.getBoundingClientRect();
+  const parentRect = parent.getBoundingClientRect();
+  return {
+    el_width: elRect.width,
+    el_offset_from_parent_center_x: (elRect.left + elRect.width/2) - (parentRect.left + parentRect.width/2),
+    el_offset_from_parent_center_y: (elRect.top + elRect.height/2) - (parentRect.top + parentRect.height/2),
+  };
+});
+```
+
+If DOM contradicts vision: trust DOM, not vision. Vision's `verdict: FAIL` based on a pixel claim with no DOM backing is a false positive.
+
+### When vision FAILS but DOM contradicts — record both
+
+Don't silently override a FAIL. Document the discrepancy in the commit message so future maintainers know the vision check was a false positive (and don't waste time re-investigating):
+
+```
+Vision FAIL (score 74): "empty-state 35px off-center"
+DOM measurement: offset 0.0px (perfectly centered)
+Action: ignore vision FAIL on this point, treat as PASS
+```
 
 ## Project-specific usage in omp-web
 
